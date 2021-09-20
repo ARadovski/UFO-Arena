@@ -36,4 +36,13 @@ public class EnemyScript : MonoBehaviour
         // Moving laterally in relation to the player
         enemyRb.AddForce(transform.right * lateralSpeed * enemyRb.mass * forceMultiplier);
     }
+
+    // Self-destruct on triggering invisible boundary
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "InvisibleBoundary")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
