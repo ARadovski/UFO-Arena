@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Powerup
   - InvisibleBoundary
+  - Projectile
+  - GameManager
   layers:
   - Default
   - TransparentFX

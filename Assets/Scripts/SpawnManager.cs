@@ -9,7 +9,9 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] powerupPrefabs;
     private GameObject[] enemies;
 
-    public float spawnBoundary = 15;
+    [SerializeField] private GameManager gameManager;
+
+    public float spawnBoundary = 12;
     public int bossFrequency = 5;
     private int waveNumber;
     private int randomIndex;
@@ -26,7 +28,7 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enemies.Length == 0)
+        if (gameManager.gameIsActive && enemies.Length == 0)
         {
             bossRound = false;
             waveNumber++;
@@ -37,7 +39,7 @@ public class SpawnManager : MonoBehaviour
         if (!bossRound && waveNumber % bossFrequency == 0)
         {
             bossRound = true;
-            SpawnBoss(waveNumber);
+            SpawnBoss();
         }
     }
 
@@ -51,9 +53,10 @@ public class SpawnManager : MonoBehaviour
         }     
     }
 
-    void SpawnBoss(int strength)
+    void SpawnBoss()
     {
         GameObject newBoss = Instantiate(boss, Vector3.zero, boss.transform.rotation);
-        newBoss.GetComponent<bossScript>().power = strength;
+        newBoss.GetComponent<bossScript>().power = waveNumber;
+        newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
     }
 }
