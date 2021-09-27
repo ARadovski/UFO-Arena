@@ -127,12 +127,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523280d9564d75b4089055084dba2780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 0}
+  bulletSpawn: {fileID: 0}
   healthSlider: {fileID: 6758136685952349244}
-  forwardSpeed: 5
+  forwardSpeed: 8
   lateralSpeed: 0
   forceMultiplier: 2
   health: 20
   bounceForce: 10
+  crashDamage: 5
+  firingRate: 2
+  bulletSpeed: 1
+  isShooter: 0
 --- !u!1001 &2002193843479025704
 PrefabInstance:
   m_ObjectHideFlags: 0

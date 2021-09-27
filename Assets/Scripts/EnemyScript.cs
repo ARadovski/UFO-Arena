@@ -45,15 +45,17 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        Move();
-        Rotate();
-        
         if (health <= 0)
         {
             Destroy(gameObject);
             gameManager.UpdateScore(scoreValue);
-        }
-        
+        }       
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+        Rotate();
     }
 
     // Self-destruct on triggering invisible boundary

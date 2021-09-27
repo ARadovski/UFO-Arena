@@ -131,11 +131,10 @@ MonoBehaviour:
   bulletPrefab: {fileID: 0}
   bulletSpawn: {fileID: 0}
   healthSlider: {fileID: 8089572980882867097}
-  forwardSpeed: 2
+  forwardSpeed: 5
   lateralSpeed: 0
   forceMultiplier: 2
   health: 100
-  scoreValue: 0
   bounceForce: 10
   crashDamage: 5
   firingRate: 2

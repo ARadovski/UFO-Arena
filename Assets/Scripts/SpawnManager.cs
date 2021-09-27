@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnBoss()
     {
-        GameObject newBoss = Instantiate(boss, Vector3.zero, boss.transform.rotation);
+        GameObject newBoss = Instantiate(boss, new Vector3(0, 10, 0), boss.transform.rotation);
         newBoss.GetComponent<bossScript>().power = waveNumber;
         newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
     }
