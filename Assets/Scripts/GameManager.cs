@@ -9,11 +9,15 @@ public class GameManager : MonoBehaviour
 {
     public int score;
     [SerializeField] private TextMeshProUGUI scoreText;
+
+    [SerializeField] private GameObject nameField;
     [SerializeField] private GameObject titlePanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Canvas playerCanvas;
     [SerializeField] private GameObject closeupCameraRig;
     [SerializeField] private Camera mainCamera;
+
+    private string playerName;
 
     public bool gameIsActive;
 
@@ -48,7 +52,7 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int scoreChange)
     {
         score += scoreChange;
-        scoreText.text = "SCORE: <br>" + score.ToString();
+        scoreText.text = playerName + ": <br>" + score.ToString();
     }
 
     public void TitleScreen()
@@ -67,12 +71,26 @@ public class GameManager : MonoBehaviour
         gameIsActive = true;
         Time.timeScale = 1;
         titlePanel.SetActive(false);
+
+        playerName = nameField.GetComponent<TMP_InputField>().text;
+        UpdateScore(0);
+
         scoreText.gameObject.SetActive(true);
         playerCanvas.gameObject.SetActive(true);
 
         mainCamera.gameObject.SetActive(true);
         closeupCameraRig.SetActive(false);
         
+    }
+
+    public void HidePlaceholder()
+    {
+        nameField.GetComponent<TMP_InputField>().placeholder.gameObject.SetActive(false);
+    }
+
+    public void ShowPlaceholder()
+    {
+        nameField.GetComponent<TMP_InputField>().placeholder.gameObject.SetActive(true);
     }
 
 }
