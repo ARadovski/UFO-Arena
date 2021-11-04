@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class EnemyScript : MonoBehaviour
 {
-    private Rigidbody enemyRb;
-    private GameObject player;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private GameObject bulletSpawn;
-    private GameManager gameManager;
+    protected Rigidbody enemyRb;
+    protected GameObject player;
+    [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected GameObject bulletSpawn;
+    protected GameManager gameManager;
     public Slider healthSlider;
 
     public float forwardSpeed = 1;
@@ -17,7 +17,7 @@ public class EnemyScript : MonoBehaviour
     public float forceMultiplier = 2;
     public float health;
     
-    private int scoreValue;
+    protected int scoreValue;
 
     public float bounceForce = 1000;
     public float crashDamage = 5;
@@ -26,7 +26,7 @@ public class EnemyScript : MonoBehaviour
 
     public bool isShooter;
     
-    void Start()
+    protected virtual void Start()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
@@ -43,23 +43,23 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
             gameManager.UpdateScore(scoreValue);
         }       
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         Move();
         Rotate();
     }
 
     // Self-destruct on triggering invisible boundary
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "InvisibleBoundary")
         {
@@ -67,7 +67,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision col)
+    protected virtual void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Player")
         {
@@ -77,7 +77,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void Move()
+    protected virtual void Move()
     {
         // Moving toward the player
         //transform.position = Vector3.MoveTowards(transform.position, player.transform.position, forwardSpeed * Time.deltaTime);
@@ -88,19 +88,19 @@ public class EnemyScript : MonoBehaviour
         enemyRb.AddForce(transform.right * lateralSpeed * enemyRb.mass * forceMultiplier);
     }
 
-    void Rotate()
+    protected virtual void Rotate()
     {
         // Looking at the player
         transform.LookAt(player.transform.position);
     }
 
-    public void UpdateHealth(float healthChange)
+    public virtual void UpdateHealth(float healthChange)
     {
         health += healthChange;
         healthSlider.value = health;
     }
 
-    private IEnumerator FireWeapon()
+    protected IEnumerator FireWeapon()
     {
         while (true)
         {
