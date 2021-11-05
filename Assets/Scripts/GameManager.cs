@@ -9,11 +9,38 @@ public class GameManager : MonoBehaviour
 {
     public int score;
     [SerializeField] private TextMeshProUGUI scoreText;
+
+    [SerializeField] private GameObject errorText;
+
+    [SerializeField] private GameObject nameField;
     [SerializeField] private GameObject titlePanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Canvas playerCanvas;
     [SerializeField] private GameObject closeupCameraRig;
     [SerializeField] private Camera mainCamera;
+
+// ENCAPSULATION
+    private string _playerName;
+    public string playerName
+    {
+        get { return _playerName;}
+        set 
+        {
+            if (value.GetType() != typeof(string))
+            {
+               Debug.Log("Strings only!"); 
+               return;
+            }
+            else if (value.Length < 1 || value.Length > 8) 
+            {
+                Debug.Log("Name must contain at least 1 char and no more than 8!");
+                errorText.GetComponent<TMP_Text>().text = "Name must contain at least 1 char and no more than 8!";
+                return;
+            }
+            _playerName = value;
+        }
+
+    }
 
     public bool gameIsActive;
 
@@ -29,14 +56,12 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0; 
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         closeupCameraRig.SetActive(true);
         mainCamera.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!gameIsActive)
@@ -45,10 +70,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+// ABSTRACTION
     public void UpdateScore(int scoreChange)
     {
         score += scoreChange;
-        scoreText.text = "SCORE: <br>" + score.ToString();
+        scoreText.text = playerName + ": <br>" + score.ToString();
     }
 
     public void TitleScreen()
@@ -64,15 +90,32 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        gameIsActive = true;
-        Time.timeScale = 1;
-        titlePanel.SetActive(false);
-        scoreText.gameObject.SetActive(true);
-        playerCanvas.gameObject.SetActive(true);
+        playerName = nameField.GetComponent<TMP_InputField>().text;
 
-        mainCamera.gameObject.SetActive(true);
-        closeupCameraRig.SetActive(false);
-        
+        if (playerName != null)
+        {
+            gameIsActive = true;
+            Time.timeScale = 1;
+            titlePanel.SetActive(false);
+
+            UpdateScore(0);
+
+            scoreText.gameObject.SetActive(true);
+            playerCanvas.gameObject.SetActive(true);
+
+            mainCamera.gameObject.SetActive(true);
+            closeupCameraRig.SetActive(false);
+        }        
+    }
+
+    public void HidePlaceholder()
+    {
+        nameField.GetComponent<TMP_InputField>().placeholder.gameObject.SetActive(false);
+    }
+
+    public void ShowPlaceholder()
+    {
+        nameField.GetComponent<TMP_InputField>().placeholder.gameObject.SetActive(true);
     }
 
 }
