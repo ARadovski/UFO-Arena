@@ -47,7 +47,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             gameManager.UpdateScore(scoreValue);
         }       
     }

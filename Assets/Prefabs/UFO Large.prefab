@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 3658128299200434773}
   - component: {fileID: 3658128299200434774}
   - component: {fileID: 3658128299200434770}
-  - component: {fileID: 3658128299200434769}
   - component: {fileID: 3216090688698731920}
   m_Layer: 0
   m_Name: UFO Large
@@ -214,30 +213,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &3658128299200434769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3658128299200434775}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 523280d9564d75b4089055084dba2780, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6443011123596459462, guid: 25def3845912eb340b97fe7e3145c8dc, type: 3}
-  bulletSpawn: {fileID: 8881739995177366601}
-  healthSlider: {fileID: 1421716139477189940}
-  forwardSpeed: 3
-  lateralSpeed: 3
-  forceMultiplier: 2
-  health: 50
-  bounceForce: 10
-  crashDamage: 5
-  firingRate: 2
-  bulletSpeed: 10
-  isShooter: 1
 --- !u!114 &3216090688698731920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +237,7 @@ MonoBehaviour:
   firingRate: 2
   bulletSpeed: 10
   isShooter: 1
-  jumpForce: 1
+  jumpForce: 1000
 --- !u!1 &8881739995177366601
 GameObject:
   m_ObjectHideFlags: 0

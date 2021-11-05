@@ -5,23 +5,22 @@ using UnityEngine;
 // INHERITANCE
 public class UfoLarge : EnemyScript
 {
-    [SerializeField] float jumpForce = 100;
+    [SerializeField] float jumpForce;
 
-    private bool isGrounded = true;
-
-    protected override void Move()
+// POLYMORPHISM
+    protected override void Start()
     {
-        base.Move();
-        Hop();
+        base.Start();
+        StartCoroutine(Hop());
     }
 
-
-    private void Hop()
-    {
-        if (isGrounded)
+    private IEnumerator Hop()
+    {  
+        while(true)
         {
+            yield return new WaitForSeconds(3);     
             enemyRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
         }
+        
     }
 }
