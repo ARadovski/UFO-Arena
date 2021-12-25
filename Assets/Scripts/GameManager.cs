@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        PlayerController.OnPlayerKilled += GameOver;
         closeupCameraRig.SetActive(true);
         mainCamera.gameObject.SetActive(false);
     }

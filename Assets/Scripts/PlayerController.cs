@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     public float health;
 
+    public static event System.Action OnPlayerKilled;
+
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -56,7 +58,11 @@ public class PlayerController : MonoBehaviour
 
         if (health <= 0)
         {
-            GameOver();
+            if(OnPlayerKilled !=null)
+            {
+                OnPlayerKilled();
+            }
+            PlayerKilled();
             Destroy(gameObject);
         }
     }
@@ -130,10 +136,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    void GameOver()
+    void PlayerKilled()
     {
         gameActive = false;
-        gameManager.GameOver();
     }
 
     void StartGame()
