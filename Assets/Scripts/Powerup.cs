@@ -7,15 +7,6 @@ public enum PowerupType { none, health, bulletPower, maxHealth, lazer, homingRoc
 public class Powerup : MonoBehaviour
 {
     public PowerupType powerupType;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+// Implement powerup functionality here instead of PlayerController?
 }

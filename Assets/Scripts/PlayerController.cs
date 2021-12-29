@@ -24,14 +24,15 @@ public class PlayerController : MonoBehaviour
     private float firingRate = .125f;
     private bool isFiring;
 
-    public float health;
+    public float health = 10;
 
     public static event System.Action OnPlayerKilled;
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        playerRb.centerOfMass = new Vector3(0, 0, 0);
+// CHANGE THIS TO PLAYER POSITION REFERENCE
+        playerRb.centerOfMass = new Vector3(0, 0, 0); 
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
@@ -40,16 +41,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+// Should be done without accessing gameManager?
         if (gameManager.gameIsActive && gameActive)
         {
             MovePlayer();
-            if (!isFiring && Input.GetMouseButtonDown(0))
+// Abstract away into FireWeapon method?
+            if (!isFiring && (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)))
             {
                 startFiring = ShootWeapon();
                 StartCoroutine(startFiring);
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
             {
                 StopCoroutine(startFiring);
                 isFiring = false;
@@ -69,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+// Do without accessing gameManager?
         if (gameManager.gameIsActive)
         {
             LookAtMouse();
@@ -78,9 +82,11 @@ public class PlayerController : MonoBehaviour
     // Control player movement with forces to rigidbody
     void MovePlayer()
     {
+// Get input as Vector3 in a single line? 
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
+// Does this vector need to be normalized?
         playerRb.AddForce(Vector3.forward * verticalInput * playerSpeed);
         playerRb.AddForce(Vector3.right * horizontalInput * playerSpeed);
     }
@@ -92,7 +98,6 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
         {
             transform.LookAt(new Vector3(raycastHit.point.x, transform.position.y, raycastHit.point.z));
-            /*transform.forward = raycastHit.point;*/
         }
     }
 
@@ -105,10 +110,11 @@ public class PlayerController : MonoBehaviour
 
             if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.health)
             {
+// Replace with call to UpdateHealth() ?
                 health = healthSlider.maxValue;
                 healthSlider.value = healthSlider.maxValue;
             }
-
+// This is increasing bullet speed not power
             if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.bulletPower)
             {
                 bulletSpeed += 1;
@@ -117,11 +123,11 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator ShootWeapon()
-    {
-        
-        while (Input.GetMouseButton(0))
+    {        
+        while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
             isFiring = true;
+// IMPLEMENT OBJECT POOLING!
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.velocity = bullet.transform.forward * bulletSpeed;
@@ -132,8 +138,7 @@ public class PlayerController : MonoBehaviour
     public void UpdateHealth(float changeAmount)
     {
         health += changeAmount;
-        healthSlider.value += changeAmount;
-        
+        healthSlider.value += changeAmount;        
     }
 
     void PlayerKilled()
@@ -146,6 +151,7 @@ public class PlayerController : MonoBehaviour
         gameActive = true;
     }
 
+// Never used
     IEnumerator PowerupTimer()
     {
         hasPowerup = true;

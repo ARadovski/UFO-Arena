@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+// Implement smoothing?
         transform.position = player.transform.position + offset;
     }
 }

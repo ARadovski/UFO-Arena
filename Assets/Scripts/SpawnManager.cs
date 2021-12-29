@@ -16,17 +16,13 @@ public class SpawnManager : MonoBehaviour
     private int waveNumber;
     private int randomIndex;
     private Vector3 randomLocation;
-
     private bool bossRound;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
+
+// Find a better way to do this
+// Abstract away from Update()
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (gameManager.gameIsActive && enemies.Length == 0)
         {
@@ -56,7 +52,7 @@ public class SpawnManager : MonoBehaviour
     void SpawnBoss()
     {
         GameObject newBoss = Instantiate(boss, new Vector3(0, 10, 0), boss.transform.rotation);
-        newBoss.GetComponent<bossScript>().power = waveNumber;
+        newBoss.GetComponent<BossScript>().power = waveNumber;
         newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
     }
 }

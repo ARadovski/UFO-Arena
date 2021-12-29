@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
     }
 
     public bool gameIsActive;
-
     private float closeupRotateSpeed = .25f;
 
     private void Awake()

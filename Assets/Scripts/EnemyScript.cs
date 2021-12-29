@@ -26,6 +26,7 @@ public class EnemyScript : MonoBehaviour
 
     public bool isShooter;
     
+// Move some of this to Awake() ?
     protected virtual void Start()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
@@ -72,7 +73,8 @@ public class EnemyScript : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             UpdateHealth(-crashDamage);
-            col.gameObject.GetComponent<PlayerController>().UpdateHealth(-crashDamage);
+// REplace with an event action 
+            player.GetComponent<PlayerController>().UpdateHealth(-crashDamage);
             /*enemyRb.AddForce((transform.position - col.transform.position).normalized * bounceForce, ForceMode.Impulse);*/
         }
     }
@@ -80,9 +82,7 @@ public class EnemyScript : MonoBehaviour
     protected virtual void Move()
     {
         // Moving toward the player
-        //transform.position = Vector3.MoveTowards(transform.position, player.transform.position, forwardSpeed * Time.deltaTime);
         enemyRb.AddForce((player.transform.position - transform.position).normalized * forwardSpeed * enemyRb.mass * forceMultiplier);
-
 
         // Moving laterally in relation to the player
         enemyRb.AddForce(transform.right * lateralSpeed * enemyRb.mass * forceMultiplier);
@@ -105,6 +105,7 @@ public class EnemyScript : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(firingRate);
+// IMPLEMENT OBJECT POOLING
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, transform.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * bulletSpeed;
         }
