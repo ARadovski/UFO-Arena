@@ -31,8 +31,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-// CHANGE THIS TO PLAYER POSITION REFERENCE
-        playerRb.centerOfMass = new Vector3(0, 0, 0); 
+        playerRb.centerOfMass = new Vector3(transform.position.x, 0, transform.position.z); 
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
@@ -82,13 +81,9 @@ public class PlayerController : MonoBehaviour
     // Control player movement with forces to rigidbody
     void MovePlayer()
     {
-// Get input as Vector3 in a single line? 
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-
-// Does this vector need to be normalized?
-        playerRb.AddForce(Vector3.forward * verticalInput * playerSpeed);
-        playerRb.AddForce(Vector3.right * horizontalInput * playerSpeed);
+        Vector3 playerInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        playerRb.AddForce(playerInput * playerSpeed);
+        //Debug.Log(playerRb.velocity.magnitude);
     }
 
     // Turn to look at mouse pointer raycast
