@@ -82,15 +82,27 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             StartCoroutine(PowerupTimer());
 
-            if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.health)
+            PowerupType type = other.gameObject.GetComponent<Powerup>().powerupType;
+            switch(type)
             {
-                UpdateHealth(maxHealth);
+                case PowerupType.health:
+                    UpdateHealth(maxHealth);
+                    break;
+                case PowerupType.bulletSpeed:
+                    bulletSpeed += 1;
+                    break;
+                default:
+                    break;
             }
+            // if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.health)
+            // {
+            //     UpdateHealth(maxHealth);
+            // }
 
-            if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.bulletSpeed)
-            {
-                bulletSpeed += 1;
-            }
+            // if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.bulletSpeed)
+            // {
+            //     bulletSpeed += 1;
+            // }
         }
     }
 
@@ -155,7 +167,7 @@ public class PlayerController : MonoBehaviour
         gameActive = false;
     }
 
-// Never used
+// Never used - implement timed powerups!
     IEnumerator PowerupTimer()
     {
         hasPowerup = true;
