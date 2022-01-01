@@ -8519,12 +8519,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3543648676382617998, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
+      propertyPath: bulletSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543648676382617998, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 265754342}
     - target: {fileID: 3543648676382617998, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: playerSpeed
-      value: 1200
+      value: 120000
       objectReference: {fileID: 0}
     - target: {fileID: 8587538210877277244, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag

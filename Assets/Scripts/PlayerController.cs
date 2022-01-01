@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Profiling;
 
 public class PlayerController : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         {
             MovePlayer();
 // Abstract away into FireWeapon method?
+            
             if (!isFiring && (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)))
             {
                 startFiring = ShootWeapon();
@@ -82,7 +84,7 @@ public class PlayerController : MonoBehaviour
     void MovePlayer()
     {
         Vector3 playerInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-        playerRb.AddForce(playerInput * playerSpeed);
+        playerRb.AddForce(playerInput * playerSpeed * Time.deltaTime);
         //Debug.Log(playerRb.velocity.magnitude);
     }
 
