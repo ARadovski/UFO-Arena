@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using System;
 public class GameManager : MonoBehaviour
 {
     public int score;
@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     public bool gameIsActive;
     private float closeupRotateSpeed = .25f;
+
+    public static event Action OnGameOver;
 
     private void Awake()
     {
@@ -85,6 +87,12 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameIsActive = false;
+        
+        if (OnGameOver != null)
+        {
+            OnGameOver();
+        }
+        
         gameOverPanel.SetActive(true);
     }
 

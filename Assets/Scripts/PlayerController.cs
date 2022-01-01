@@ -29,20 +29,23 @@ public class PlayerController : MonoBehaviour
 
     public static event System.Action OnPlayerKilled;
 
-    void Start()
+    private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
-        playerRb.centerOfMass = new Vector3(transform.position.x, 0, transform.position.z); 
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
+        GameManager.OnGameOver += EndGame;
+    }
+    void Start()
+    {
+        playerRb.centerOfMass = new Vector3(transform.position.x, 0, transform.position.z); 
         StartGame();
     }
 
     void Update()
     {
-// Should be done without accessing gameManager?
-        if (gameManager.gameIsActive && gameActive)
+        if (gameActive)
         {
             MovePlayer();
 // Abstract away into FireWeapon method?
@@ -73,8 +76,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-// Do without accessing gameManager?
-        if (gameManager.gameIsActive)
+        if (gameActive)
         {
             LookAtMouse();
         }      
@@ -148,11 +150,21 @@ public class PlayerController : MonoBehaviour
         gameActive = true;
     }
 
+    void EndGame()
+    {
+        gameActive = false;
+    }
+
 // Never used
     IEnumerator PowerupTimer()
     {
         hasPowerup = true;
         yield return new WaitForSeconds(powerupDuration);
         hasPowerup = false;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameOver -= EndGame;
     }
 }
