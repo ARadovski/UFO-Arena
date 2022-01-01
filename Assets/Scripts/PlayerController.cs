@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             StartCoroutine(PowerupTimer());
 
+// Implement this in Powerup script?
             PowerupType type = other.gameObject.GetComponent<Powerup>().powerupType;
             switch(type)
             {
@@ -94,15 +95,6 @@ public class PlayerController : MonoBehaviour
                 default:
                     break;
             }
-            // if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.health)
-            // {
-            //     UpdateHealth(maxHealth);
-            // }
-
-            // if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.bulletSpeed)
-            // {
-            //     bulletSpeed += 1;
-            // }
         }
     }
 
