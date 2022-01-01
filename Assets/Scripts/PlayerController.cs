@@ -48,30 +48,10 @@ public class PlayerController : MonoBehaviour
         if (gameActive)
         {
             MovePlayer();
-// Abstract away into FireWeapon method?
-            
-            if (!isFiring && (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)))
-            {
-                startFiring = ShootWeapon();
-                StartCoroutine(startFiring);
-            }
-
-            if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
-            {
-                StopCoroutine(startFiring);
-                isFiring = false;
-            }
+            CheckWeaponFire();
         }
 
-        if (health <= 0)
-        {
-            if(OnPlayerKilled !=null)
-            {
-                OnPlayerKilled();
-            }
-            PlayerKilled();
-            Destroy(gameObject);
-        }
+        CheckIfKilled();
     }
 
     private void FixedUpdate()
@@ -121,6 +101,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void CheckWeaponFire()
+    {
+        if (!isFiring && (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)))
+            {
+                startFiring = ShootWeapon();
+                StartCoroutine(startFiring);
+            }
+
+            if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
+            {
+                StopCoroutine(startFiring);
+                isFiring = false;
+            }
+    }
+
     IEnumerator ShootWeapon()
     {        
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
@@ -134,15 +129,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void CheckIfKilled()
+    {
+        if (health <= 0)
+        {
+            if(OnPlayerKilled !=null)
+            {
+                OnPlayerKilled();
+            }
+            gameActive = false;
+            Destroy(gameObject);
+        }
+    }
+
     public void UpdateHealth(float changeAmount)
     {
         health += changeAmount;
         healthSlider.value += changeAmount;        
-    }
-
-    void PlayerKilled()
-    {
-        gameActive = false;
     }
 
     void StartGame()
