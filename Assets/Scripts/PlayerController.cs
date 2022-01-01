@@ -25,14 +25,16 @@ public class PlayerController : MonoBehaviour
     private float firingRate = .125f;
     private bool isFiring;
 
-    public float health = 10;
+    public float maxHealth = 10;
+    private float health;
 
     public static event System.Action OnPlayerKilled;
 
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
-        healthSlider.maxValue = health;
+        health = maxHealth;
+        healthSlider.maxValue = maxHealth;
         healthSlider.value = health;
 
         GameManager.OnGameOver += EndGame;
@@ -47,19 +49,12 @@ public class PlayerController : MonoBehaviour
     {
         if (gameActive)
         {
+            LookAtMouse();
             MovePlayer();
             CheckWeaponFire();
         }
 
         CheckIfKilled();
-    }
-
-    private void FixedUpdate()
-    {
-        if (gameActive)
-        {
-            LookAtMouse();
-        }      
     }
 
     // Control player movement with forces to rigidbody
@@ -89,12 +84,10 @@ public class PlayerController : MonoBehaviour
 
             if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.health)
             {
-// Replace with call to UpdateHealth() ?
-                health = healthSlider.maxValue;
-                healthSlider.value = healthSlider.maxValue;
+                UpdateHealth(maxHealth);
             }
-// This is increasing bullet speed not power
-            if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.bulletPower)
+
+            if (other.gameObject.GetComponent<Powerup>().powerupType == PowerupType.bulletSpeed)
             {
                 bulletSpeed += 1;
             }
@@ -145,7 +138,11 @@ public class PlayerController : MonoBehaviour
     public void UpdateHealth(float changeAmount)
     {
         health += changeAmount;
-        healthSlider.value += changeAmount;        
+        healthSlider.value += changeAmount;
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+        }        
     }
 
     void StartGame()

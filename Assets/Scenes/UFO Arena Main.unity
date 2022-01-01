@@ -8519,6 +8519,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3543648676382617998, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
+      propertyPath: maxHealth
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543648676382617998, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: bulletSpeed
       value: 25
       objectReference: {fileID: 0}

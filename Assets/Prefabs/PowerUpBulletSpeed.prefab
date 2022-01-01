@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2631811369662264731}
   - component: {fileID: -7772185513494178927}
   m_Layer: 0
-  m_Name: PowerUpBulletPower
+  m_Name: PowerUpBulletSpeed
   m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,4 +109,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d9138b3515e1e4583b79b0bd99ced4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerupType: 2
+  powerupType: 3
