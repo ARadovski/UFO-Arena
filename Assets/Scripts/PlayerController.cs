@@ -80,7 +80,8 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Powerup")
         {
             Destroy(other.gameObject);
-            StartCoroutine(PowerupTimer());
+// Add contitional?
+            //StartCoroutine(PowerupTimer());
 
 // Implement this in Powerup script?
             PowerupType type = other.gameObject.GetComponent<Powerup>().powerupType;

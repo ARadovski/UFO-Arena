@@ -13,6 +13,7 @@ public class RotateHealthBar : MonoBehaviour
 
     void Update()
     {
+// Fix error?
         transform.forward = mainCamera.transform.forward;
     }
 }
