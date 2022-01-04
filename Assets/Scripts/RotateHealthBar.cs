@@ -8,13 +8,12 @@ public class RotateHealthBar : MonoBehaviour
 
     void Awake()
     {
+// Fix error? NullReferenceException: Object reference not set to an instance of an object
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        Debug.Log(mainCamera.gameObject.name);
     }
 
     void Update()
     {
-// Fix error?
         transform.forward = mainCamera.transform.forward;
     }
 }

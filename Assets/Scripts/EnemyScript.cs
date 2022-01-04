@@ -7,6 +7,7 @@ public class EnemyScript : MonoBehaviour
 {
     protected Rigidbody enemyRb;
     protected GameObject player;
+    protected PlayerController playerController;
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] protected GameObject bulletSpawn;
     protected GameManager gameManager;
@@ -25,13 +26,15 @@ public class EnemyScript : MonoBehaviour
     public float bulletSpeed = 10;
 
     public bool isShooter;
-    
+
     protected virtual void Start()
     {
 // Move some to Awake?
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
+
         player = GameObject.FindWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
        
         healthSlider.maxValue = health;
         healthSlider.value = health;
@@ -73,8 +76,7 @@ public class EnemyScript : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             UpdateHealth(-crashDamage);
-// REplace with an event action 
-            player.GetComponent<PlayerController>().UpdateHealth(-crashDamage);
+            playerController.UpdateHealth(-crashDamage);
             /*enemyRb.AddForce((transform.position - col.transform.position).normalized * bounceForce, ForceMode.Impulse);*/
         }
     }
