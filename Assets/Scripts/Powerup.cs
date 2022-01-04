@@ -7,5 +7,7 @@ public enum PowerupType { none, health, bulletPower, bulletSpeed, playerSpeed, m
 public class Powerup : MonoBehaviour
 {
     public PowerupType powerupType;
+    public bool timedPowerup;
+    public float powerupDuration = 5;
 
 }

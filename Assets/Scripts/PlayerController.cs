@@ -18,9 +18,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator startFiring;
 
-    private bool hasPowerup;
+    public bool hasPowerup;
     private bool controlsActive;
-    public float powerupDuration = 7;
 
     
     public float bulletSpeed = 1;
@@ -86,15 +85,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.tag == "Powerup")
         {
-            Destroy(other.gameObject);
-
-// Implement this in Powerup script?
-            PowerupType powerupType = other.gameObject.GetComponent<Powerup>().powerupType;
-            PowerupManager.instance.ActivatePowerup(powerupType);
-            
-
-// Add contitional? Launch from Powerup?
-            StartCoroutine(PowerupTimer());
+            PowerupManager.instance.ActivatePowerup(other.gameObject);  
+            Destroy(other.gameObject);   
         }
     }
 
@@ -157,14 +149,6 @@ public class PlayerController : MonoBehaviour
     void DisableControls()
     {
         controlsActive = false;
-    }
-
-// Never used - implement timed powerups!
-    IEnumerator PowerupTimer()
-    {
-        hasPowerup = true;
-        yield return new WaitForSeconds(powerupDuration);
-        hasPowerup = false;
     }
 
     private void OnDestroy()

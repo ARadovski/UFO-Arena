@@ -22,9 +22,12 @@ public class PowerupManager : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
     }
 
-    public void ActivatePowerup(PowerupType type)
+    public void ActivatePowerup(GameObject powerup)
     {
-        switch(type)
+        Powerup powerupScript = powerup.GetComponent<Powerup>();
+        PowerupType powerupType = powerupScript.powerupType;
+
+        switch(powerupType)
             {
                 case PowerupType.health:
                     playerController.UpdateHealth(playerController.maxHealth);
@@ -35,7 +38,17 @@ public class PowerupManager : MonoBehaviour
                 default:
                     break;
             }
+
+        if (powerupScript.timedPowerup)
+        {
+            StartCoroutine(PowerupTimer(powerupScript.powerupDuration));
+        }
     }
 
-    
+    IEnumerator PowerupTimer(float duration)
+    {
+        playerController.hasPowerup = true;
+        yield return new WaitForSeconds(duration);
+        playerController.hasPowerup = false;
+    }
 }
