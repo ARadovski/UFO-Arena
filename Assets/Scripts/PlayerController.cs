@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
+    Camera playCamera;
 
     IEnumerator startFiring;
 
@@ -39,13 +40,15 @@ public class PlayerController : MonoBehaviour
         healthSlider.value = health;
 
         GameManager.OnGameOver += EndGame;
+
+        PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
+
+        playCamera = Camera.main;
     }
     void Start()
     {
         playerRb.centerOfMass = new Vector3(transform.position.x, 0, transform.position.z); 
         StartGame();
-
-        PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
     }
 
     void Update()
@@ -71,7 +74,7 @@ public class PlayerController : MonoBehaviour
     // Turn to look at mouse pointer raycast
     void LookAtMouse()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = playCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
         {
             transform.LookAt(new Vector3(raycastHit.point.x, transform.position.y, raycastHit.point.z));
@@ -83,7 +86,7 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Powerup")
         {
             Destroy(other.gameObject);
-// Add contitional?
+// Add contitional? Launch from Powerup?
             //StartCoroutine(PowerupTimer());
 
 // Implement this in Powerup script?
@@ -122,8 +125,6 @@ public class PlayerController : MonoBehaviour
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
             isFiring = true;
-// IMPLEMENT OBJECT POOLING!
-            //GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
 
             GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
