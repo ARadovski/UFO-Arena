@@ -8,15 +8,8 @@ public class BulletScript : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke("Destroy", 5);
+        Invoke("Disable", 5);
     }
-    void Start()
-    {
-// Replace this with pooling
-        //Invoke("Destroy", 5);
-    }
-
-    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,11 +24,10 @@ public class BulletScript : MonoBehaviour
             other.GetComponent<EnemyScript>().UpdateHealth(-damageEffect);
         }
 
-        //Destroy(gameObject);
-        gameObject.SetActive(false);
+        Disable();
     }
 
-    protected void Destroy()
+    protected void Disable()
     {
         gameObject.SetActive(false);
     }

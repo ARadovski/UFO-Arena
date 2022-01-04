@@ -3543,7 +3543,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 265754342}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: TitleScreen
+        m_MethodName: LoadTitleScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4848,7 +4848,7 @@ GameObject:
   - component: {fileID: 1113208404}
   - component: {fileID: 1113208403}
   m_Layer: 0
-  m_Name: PoolManager
+  m_Name: ObjectPoolManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -26,9 +26,9 @@ public class EnemyScript : MonoBehaviour
 
     public bool isShooter;
     
-// Move some of this to Awake() ?
     protected virtual void Start()
     {
+// Move some to Awake?
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player");
