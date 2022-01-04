@@ -8,5 +8,4 @@ public class Powerup : MonoBehaviour
 {
     public PowerupType powerupType;
 
-// Implement powerup functionality here instead of PlayerController?
 }

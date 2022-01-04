@@ -87,22 +87,14 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Powerup")
         {
             Destroy(other.gameObject);
-// Add contitional? Launch from Powerup?
-            //StartCoroutine(PowerupTimer());
 
 // Implement this in Powerup script?
-            PowerupType type = other.gameObject.GetComponent<Powerup>().powerupType;
-            switch(type)
-            {
-                case PowerupType.health:
-                    UpdateHealth(maxHealth);
-                    break;
-                case PowerupType.bulletSpeed:
-                    bulletSpeed += 1;
-                    break;
-                default:
-                    break;
-            }
+            PowerupType powerupType = other.gameObject.GetComponent<Powerup>().powerupType;
+            PowerupManager.instance.ActivatePowerup(powerupType);
+            
+
+// Add contitional? Launch from Powerup?
+            StartCoroutine(PowerupTimer());
         }
     }
 
