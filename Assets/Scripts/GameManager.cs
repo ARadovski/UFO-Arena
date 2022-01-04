@@ -64,14 +64,6 @@ public class GameManager : MonoBehaviour
         mainCamera.gameObject.SetActive(false);
     }
 
-    void Update()
-    {
-        if (!gameIsActive)
-        {
-            closeupCameraRig.transform.Rotate(Vector3.up * closeupRotateSpeed);
-        }
-    }
-
 // ABSTRACTION
     public void UpdateScore(int scoreChange)
     {
@@ -79,7 +71,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = playerName + ": <br>" + score.ToString();
     }
 
-    public void TitleScreen()
+    public void LoadTitleScreen()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
