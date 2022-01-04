@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Slider healthSlider;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
 
@@ -43,6 +44,8 @@ public class PlayerController : MonoBehaviour
     {
         playerRb.centerOfMass = new Vector3(transform.position.x, 0, transform.position.z); 
         StartGame();
+
+        PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
     }
 
     void Update()
@@ -120,7 +123,9 @@ public class PlayerController : MonoBehaviour
         {
             isFiring = true;
 // IMPLEMENT OBJECT POOLING!
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+            //GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+
+            GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.velocity = bullet.transform.forward * bulletSpeed;
             yield return new WaitForSeconds(firingRate);

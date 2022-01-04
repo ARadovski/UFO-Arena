@@ -5,11 +5,18 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
     public float damageEffect = 10;
+
+    private void OnEnable()
+    {
+        Invoke("Destroy", 5);
+    }
     void Start()
     {
 // Replace this with pooling
-        Destroy(gameObject, 5);
+        //Invoke("Destroy", 5);
     }
+
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +31,12 @@ public class BulletScript : MonoBehaviour
             other.GetComponent<EnemyScript>().UpdateHealth(-damageEffect);
         }
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    protected void Destroy()
+    {
+        gameObject.SetActive(false);
     }
 }
