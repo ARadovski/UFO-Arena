@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator startFiring;
 
     private bool hasPowerup;
-    private bool gameActive;
+    private bool controlsActive;
     public float powerupDuration = 7;
 
     
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         healthSlider.maxValue = maxHealth;
         healthSlider.value = health;
 
-        GameManager.OnGameOver += EndGame;
+        GameManager.OnGameOver += DisableControls;
 
         PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
 
@@ -48,12 +48,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRb.centerOfMass = new Vector3(transform.position.x, 0, transform.position.z); 
-        StartGame();
+
+        GameManager.OnStartGame += EnableControls;
     }
 
     void Update()
     {
-        if (gameActive)
+        if (controlsActive)
         {
             LookAtMouse();
             MovePlayer();
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
             {
                 OnPlayerKilled();
             }
-            gameActive = false;
+            controlsActive = false;
             Destroy(gameObject);
         }
     }
@@ -156,14 +157,14 @@ public class PlayerController : MonoBehaviour
         }        
     }
 
-    void StartGame()
+    void EnableControls()
     {
-        gameActive = true;
+        controlsActive = true;
     }
 
-    void EndGame()
+    void DisableControls()
     {
-        gameActive = false;
+        controlsActive = false;
     }
 
 // Never used - implement timed powerups!
@@ -176,6 +177,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.OnGameOver -= EndGame;
+        GameManager.OnGameOver -= DisableControls;
+        GameManager.OnStartGame -= EnableControls;
     }
 }

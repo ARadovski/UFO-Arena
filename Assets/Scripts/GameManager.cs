@@ -41,11 +41,9 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
     public bool gameIsActive;
-    private float closeupRotateSpeed = .25f;
-
     public static event Action OnGameOver;
+    public static event Action OnStartGame;
 
     private void Awake()
     {
@@ -90,6 +88,10 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        if (OnStartGame != null){
+            OnStartGame();
+        }
+
         playerName = nameField.GetComponent<TMP_InputField>().text;
 
         if (playerName != null)
