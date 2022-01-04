@@ -6,9 +6,10 @@ public class RotateHealthBar : MonoBehaviour
 {
     private Camera mainCamera;
 
-    void Start()
+    void Awake()
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        Debug.Log(mainCamera.gameObject.name);
     }
 
     void Update()
