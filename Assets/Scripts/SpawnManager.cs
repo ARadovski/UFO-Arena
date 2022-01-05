@@ -5,9 +5,11 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
+// turn prefbs/ quantity into a List for convenience and to have different pool quantities
+    public int prefabPoolQuantity;
     public GameObject boss;
     public GameObject[] powerupPrefabs;
-    private GameObject[] enemies;
+    private GameObject[] activeEnemies;
 
     [SerializeField] private GameManager gameManager;
 
@@ -18,13 +20,20 @@ public class SpawnManager : MonoBehaviour
     private Vector3 randomLocation;
     private bool bossRound;
 
+    private void Awake()
+    {
+        for (int i = 0; i < enemyPrefabs.Length; i++)
+        {
+            PoolManager.instance.CreateNewPool(enemyPrefabs[i], prefabPoolQuantity);
+            Debug.Log(enemyPrefabs[i].GetInstanceID());
+        }
+    }
     void Update()
     {
-
-// Find a better way to do this
+// Find a better way to do this - add up numeberOfEnemies, subtract from it on enemy death
 // Abstract away from Update()
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (gameManager.gameIsActive && enemies.Length == 0)
+        activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (gameManager.gameIsActive && activeEnemies.Length == 0)
         {
             bossRound = false;
             waveNumber++;
@@ -45,7 +54,9 @@ public class SpawnManager : MonoBehaviour
         {
             randomIndex = Random.Range(0, type.Length);
             randomLocation = new Vector3(Random.Range(-spawnBoundary, spawnBoundary), 1, Random.Range(-spawnBoundary, spawnBoundary));
-            Instantiate(type[randomIndex], randomLocation, Quaternion.identity);
+            
+            PoolManager.instance.ReusePooledObject(type[randomIndex], randomLocation, Quaternion.identity);
+            //Instantiate(type[randomIndex], randomLocation, Quaternion.identity);
         }     
     }
 

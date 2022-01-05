@@ -9,22 +9,18 @@ public class EnemyScript : MonoBehaviour
     protected GameObject player;
     protected PlayerController playerController;
     [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] int bulletPoolQuantity = 60;
     [SerializeField] protected GameObject bulletSpawn;
     protected GameManager gameManager;
     public Slider healthSlider;
-
     public float forwardSpeed = 1;
     public float lateralSpeed;
     public float forceMultiplier = 2;
     public float health;
-    
     protected int scoreValue;
-
-    public float bounceForce = 1000;
     public float crashDamage = 5;
     public int firingRate = 2;
     public float bulletSpeed = 10;
-
     public bool isShooter;
 
     private void Awake()
@@ -34,6 +30,8 @@ public class EnemyScript : MonoBehaviour
 
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
+
+        PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
     }
     protected virtual void Start()
     {       
@@ -52,7 +50,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Disable();
             gameManager.UpdateScore(scoreValue);
         }       
     }
@@ -68,7 +66,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject.tag == "InvisibleBoundary")
         {
-            Destroy(gameObject);
+            Disable();
         }
     }
 
@@ -78,7 +76,6 @@ public class EnemyScript : MonoBehaviour
         {
             UpdateHealth(-crashDamage);
             playerController.UpdateHealth(-crashDamage);
-            /*enemyRb.AddForce((transform.position - col.transform.position).normalized * bounceForce, ForceMode.Impulse);*/
         }
     }
 
@@ -108,11 +105,16 @@ public class EnemyScript : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(firingRate);
-// IMPLEMENT OBJECT POOLING
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, transform.rotation);
+
+            GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, transform.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * bulletSpeed;
         }
         
+    }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
     }
 
 }

@@ -5584,6 +5584,7 @@ MonoBehaviour:
   - {fileID: 7336983984595049460, guid: 40b8c2681eb60c148ad4ee30616aca20, type: 3}
   - {fileID: 7336983984595049460, guid: 40b8c2681eb60c148ad4ee30616aca20, type: 3}
   - {fileID: 3658128299200434775, guid: 2aae270566968f34c86719c12301df22, type: 3}
+  prefabPoolQuantity: 30
   boss: {fileID: 2043336313128936210, guid: 32fbf97e46a1861408898eb06e8370e3, type: 3}
   powerupPrefabs:
   - {fileID: 2631811369662264724, guid: f57fda9ba70f9f94b825e379990795f9, type: 3}
@@ -8701,7 +8702,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3543648676382617998, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: bulletPoolQuantity
-      value: 10
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8587538210877277244, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag

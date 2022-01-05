@@ -30,6 +30,7 @@ public class PoolManager : MonoBehaviour
 				newPooledObject.SetActive(false);
 
 				poolDictionary[poolKey].Enqueue(newPooledObject);	
+// parenting to a holder GameObject
 			}
 		}	
 	}
@@ -41,6 +42,10 @@ public class PoolManager : MonoBehaviour
 		pooledObject.transform.position = position;
 		pooledObject.transform.rotation = rotation;
 		pooledObject.SetActive(true);
+// Investigate why EnemyScript gets disabled on smallEnemy, fix and eliminate this conditional:
+		if (pooledObject.GetComponent<EnemyScript>() != null){
+			pooledObject.GetComponent<EnemyScript>().enabled = true;
+		}
 
 		poolDictionary[poolKey].Enqueue(pooledObject);
 

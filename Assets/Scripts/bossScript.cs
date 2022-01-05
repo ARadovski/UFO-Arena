@@ -8,7 +8,12 @@ public class BossScript : MonoBehaviour
     public int power;
     private float health;
     [SerializeField] private GameObject minionPrefab;
+    [SerializeField] int minionPoolQuantity;
 
+    private void Awake()
+    {
+        PoolManager.instance.CreateNewPool(minionPrefab, minionPoolQuantity);
+    }
     void Start()
     {
         health = GetComponent<EnemyScript>().health;
@@ -20,8 +25,8 @@ public class BossScript : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(3);
-// Implement object pooling?
-            Instantiate(minionPrefab, transform.position, transform.rotation);
+
+            PoolManager.instance.ReusePooledObject(minionPrefab, transform.position, transform.rotation);
         }
     }
 }
