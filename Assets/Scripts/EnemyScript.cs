@@ -27,15 +27,16 @@ public class EnemyScript : MonoBehaviour
 
     public bool isShooter;
 
-    protected virtual void Start()
+    private void Awake()
     {
-// Move some to Awake?
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
 
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
-       
+    }
+    protected virtual void Start()
+    {       
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
