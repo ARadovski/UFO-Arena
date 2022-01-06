@@ -13,7 +13,8 @@ public class BossScript : MonoBehaviour
     {
         PoolManager.instance.CreateNewPool(minionPrefab, minionPoolQuantity);
     }
-    void Start()
+
+    private void OnEnable()
     {
         StartCoroutine(LaunchMinions());
     }
