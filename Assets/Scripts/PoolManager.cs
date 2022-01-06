@@ -24,13 +24,20 @@ public class PoolManager : MonoBehaviour
 		if (!poolDictionary.ContainsKey(poolKey))
 		{
 			poolDictionary.Add(poolKey, new Queue<GameObject>());
+
+			// Creating new pool holder object and parenting it to PoolManager
+			GameObject newPool = new GameObject(prefab + " pool");
+			newPool.transform.SetParent(transform);
+
 			for (int i = 0; i < poolCapacity; i++)
 			{
 				GameObject newPooledObject = Instantiate(prefab) as GameObject;
 				newPooledObject.SetActive(false);
+				// parenting to a holder GameObject
+				newPooledObject.transform.SetParent(newPool.transform);
 
 				poolDictionary[poolKey].Enqueue(newPooledObject);	
-// parenting to a holder GameObject
+
 			}
 		}	
 	}
