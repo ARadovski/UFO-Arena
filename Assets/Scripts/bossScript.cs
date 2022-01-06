@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Inherit from EnemysSript?
+// Inherit from EnemySript?
 public class BossScript : MonoBehaviour
 {
     public int power;

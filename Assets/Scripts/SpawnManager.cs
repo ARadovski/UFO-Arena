@@ -28,17 +28,14 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < enemyPrefabs.Length; i++)
         {
             PoolManager.instance.CreateNewPool(enemyPrefabs[i], enemyPoolQuantity);
-            Debug.Log("Pool created for enemy prefab #" + enemyPrefabs[i].GetInstanceID());
         }
 
         for (int i = 0; i < powerupPrefabs.Length; i++)
         {
             PoolManager.instance.CreateNewPool(powerupPrefabs[i], powerupPoolQuantity);
-            Debug.Log("Pool created for powerup prefab #" + powerupPrefabs[i].GetInstanceID());
         }
 
         PoolManager.instance.CreateNewPool(bossPrefab, 1);
-        Debug.Log("Pool created for boss prefab #" + bossPrefab.GetInstanceID());
     }
     void Update()
     {
