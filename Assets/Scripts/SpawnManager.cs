@@ -6,10 +6,12 @@ public class SpawnManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
 // turn prefbs/ quantity into a List for convenience and to have different pool quantities
-    public int prefabPoolQuantity;
+    public int enemyPoolQuantity;
     public GameObject boss;
     public GameObject[] powerupPrefabs;
-    private GameObject[] activeEnemies;
+    public int powerupPoolQuantity;
+
+    public static int activeEnemyNumber;
 
     [SerializeField] private GameManager gameManager;
 
@@ -24,27 +26,47 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < enemyPrefabs.Length; i++)
         {
-            PoolManager.instance.CreateNewPool(enemyPrefabs[i], prefabPoolQuantity);
-            Debug.Log(enemyPrefabs[i].GetInstanceID());
+            PoolManager.instance.CreateNewPool(enemyPrefabs[i], enemyPoolQuantity);
+            Debug.Log("Pool created for enemy prefab #" + enemyPrefabs[i].GetInstanceID());
+        }
+
+        for (int i = 0; i < powerupPrefabs.Length; i++)
+        {
+            PoolManager.instance.CreateNewPool(powerupPrefabs[i], powerupPoolQuantity);
+            Debug.Log("Pool created for powerup prefab #" + powerupPrefabs[i].GetInstanceID());
         }
     }
     void Update()
     {
 // Find a better way to do this - add up numeberOfEnemies, subtract from it on enemy death
 // Abstract away from Update()
-        activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (gameManager.gameIsActive && activeEnemies.Length == 0)
+        if (gameManager.gameIsActive)
         {
+            CheckIfSpawn();
+        } 
+    }
+
+    void CheckIfSpawn()
+    {
+        if (activeEnemyNumber <= 0)
+        {
+            Debug.Log("Spawning enemies");
             bossRound = false;
             waveNumber++;
+            Debug.Log("Wave number: " + waveNumber);
             SpawnObjects(enemyPrefabs, waveNumber);
             SpawnObjects(powerupPrefabs, 1);
+            activeEnemyNumber = waveNumber;
+            Debug.Log("activeEnemyNumber: " + activeEnemyNumber);
         }
 
         if (!bossRound && waveNumber % bossFrequency == 0)
         {
+            Debug.Log("Spawning a Boss");
             bossRound = true;
             SpawnBoss();
+            activeEnemyNumber += 1;
+            Debug.Log("activeEnemyNumber: " + activeEnemyNumber);
         }
     }
 

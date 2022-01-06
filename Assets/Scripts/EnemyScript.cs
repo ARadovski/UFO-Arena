@@ -8,6 +8,7 @@ public class EnemyScript : MonoBehaviour
     protected Rigidbody enemyRb;
     protected GameObject player;
     protected PlayerController playerController;
+    protected SpawnManager spawnManager;
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] int bulletPoolQuantity = 60;
     [SerializeField] protected GameObject bulletSpawn;
@@ -16,7 +17,7 @@ public class EnemyScript : MonoBehaviour
     public float forwardSpeed = 1;
     public float lateralSpeed;
     public float forceMultiplier = 2;
-    public float health;
+    public float health = 10;
     protected int scoreValue;
     public float crashDamage = 5;
     public int firingRate = 2;
@@ -26,12 +27,13 @@ public class EnemyScript : MonoBehaviour
     private void Awake()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+
         enemyRb = GetComponent<Rigidbody>();
 
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
 
-        PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
+        //PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
     }
     protected virtual void Start()
     {       
@@ -52,6 +54,7 @@ public class EnemyScript : MonoBehaviour
         {
             Disable();
             gameManager.UpdateScore(scoreValue);
+            SpawnManager.activeEnemyNumber -= 1;
         }       
     }
 
