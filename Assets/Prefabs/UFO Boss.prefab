@@ -129,13 +129,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
+  bulletPoolQuantity: 60
   bulletSpawn: {fileID: 0}
   healthSlider: {fileID: 8089572980882867097}
   forwardSpeed: 5
   lateralSpeed: 0
   forceMultiplier: 2
   health: 100
-  bounceForce: 10
   crashDamage: 5
   firingRate: 2
   bulletSpeed: 10
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 0
   minionPrefab: {fileID: 7336983984595049460, guid: 40b8c2681eb60c148ad4ee30616aca20, type: 3}
+  minionPoolQuantity: 20
 --- !u!1001 &3910090909557731213
 PrefabInstance:
   m_ObjectHideFlags: 0
