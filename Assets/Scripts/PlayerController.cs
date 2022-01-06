@@ -81,12 +81,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Check for powerups
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Powerup")
         {
             PowerupManager.instance.ActivatePowerup(other.gameObject);  
-            Destroy(other.gameObject);   
+            other.gameObject.SetActive(false);   
         }
     }
 
