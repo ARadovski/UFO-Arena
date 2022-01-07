@@ -8,6 +8,7 @@ public class EnemyScript : MonoBehaviour
     protected Rigidbody enemyRb;
     protected GameObject player;
     protected PlayerController playerController;
+    protected SpawnManager spawnManager;
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] int bulletPoolQuantity = 60;
     [SerializeField] protected GameObject bulletSpawn;
@@ -16,7 +17,8 @@ public class EnemyScript : MonoBehaviour
     public float forwardSpeed = 1;
     public float lateralSpeed;
     public float forceMultiplier = 2;
-    public float health;
+    public float health = 10;
+    [SerializeField] float currentHealth;
     protected int scoreValue;
     public float crashDamage = 5;
     public int firingRate = 2;
@@ -26,20 +28,24 @@ public class EnemyScript : MonoBehaviour
     private void Awake()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+
         enemyRb = GetComponent<Rigidbody>();
 
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
 
-        PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
+        //PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
+    }
+
+    private void OnEnable()
+    {
+        currentHealth = health;
+        healthSlider.maxValue = health;
+        healthSlider.value = health;
+        scoreValue = (int)health;
     }
     protected virtual void Start()
     {       
-        healthSlider.maxValue = health;
-        healthSlider.value = health;
-
-        scoreValue = (int)health;
-
         if (isShooter)
         {
             StartCoroutine(FireWeapon());
@@ -48,10 +54,9 @@ public class EnemyScript : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
-            Disable();
-            gameManager.UpdateScore(scoreValue);
+            OnKilled();
         }       
     }
 
@@ -66,7 +71,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject.tag == "InvisibleBoundary")
         {
-            Disable();
+            OnKilled();
         }
     }
 
@@ -96,8 +101,8 @@ public class EnemyScript : MonoBehaviour
 
     public virtual void UpdateHealth(float healthChange)
     {
-        health += healthChange;
-        healthSlider.value = health;
+        currentHealth += healthChange;
+        healthSlider.value = currentHealth;
     }
 
     protected IEnumerator FireWeapon()
@@ -112,9 +117,11 @@ public class EnemyScript : MonoBehaviour
         
     }
 
-    public void Disable()
+    public void OnKilled()
     {
         gameObject.SetActive(false);
+        gameManager.UpdateScore(scoreValue);
+        SpawnManager.activeEnemyNumber -= 1;
     }
 
 }
