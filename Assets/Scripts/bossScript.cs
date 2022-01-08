@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Inherit from EnemysSript?
+// Inherit from EnemySript?
 public class BossScript : MonoBehaviour
 {
     public int power;
-    private float health;
     [SerializeField] private GameObject minionPrefab;
     [SerializeField] int minionPoolQuantity;
 
@@ -14,9 +13,9 @@ public class BossScript : MonoBehaviour
     {
         PoolManager.instance.CreateNewPool(minionPrefab, minionPoolQuantity);
     }
-    void Start()
+
+    private void OnEnable()
     {
-        health = GetComponent<EnemyScript>().health;
         StartCoroutine(LaunchMinions());
     }
 
@@ -27,6 +26,7 @@ public class BossScript : MonoBehaviour
             yield return new WaitForSeconds(3);
 
             PoolManager.instance.ReusePooledObject(minionPrefab, transform.position, transform.rotation);
+            SpawnManager.activeEnemyNumber += 1;
         }
     }
 }

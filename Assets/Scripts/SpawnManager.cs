@@ -5,11 +5,14 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
-// turn prefbs/ quantity into a List for convenience and to have different pool quantities
-    public int prefabPoolQuantity;
-    public GameObject boss;
+// turn prefabs + quantity into a List for convenience and to have different pool quantities
+    public int enemyPoolQuantity;
+    public GameObject bossPrefab;
     public GameObject[] powerupPrefabs;
-    private GameObject[] activeEnemies;
+    [SerializeField] int powerupsPerRound = 1;
+    public int powerupPoolQuantity;
+
+    public static int activeEnemyNumber;
 
     [SerializeField] private GameManager gameManager;
 
@@ -24,28 +27,68 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < enemyPrefabs.Length; i++)
         {
-            PoolManager.instance.CreateNewPool(enemyPrefabs[i], prefabPoolQuantity);
-            Debug.Log(enemyPrefabs[i].GetInstanceID());
+            PoolManager.instance.CreateNewPool(enemyPrefabs[i], enemyPoolQuantity);
         }
+
+        for (int i = 0; i < powerupPrefabs.Length; i++)
+        {
+            PoolManager.instance.CreateNewPool(powerupPrefabs[i], powerupPoolQuantity);
+        }
+
+        PoolManager.instance.CreateNewPool(bossPrefab, 1);
     }
     void Update()
     {
-// Find a better way to do this - add up numeberOfEnemies, subtract from it on enemy death
-// Abstract away from Update()
-        activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (gameManager.gameIsActive && activeEnemies.Length == 0)
+        if (gameManager.gameIsActive)
         {
-            bossRound = false;
-            waveNumber++;
-            SpawnObjects(enemyPrefabs, waveNumber);
-            SpawnObjects(powerupPrefabs, 1);
-        }
+            if (activeEnemyNumber <= 0)
+            {
+                SpawnWave();
+            }
 
-        if (!bossRound && waveNumber % bossFrequency == 0)
-        {
-            bossRound = true;
-            SpawnBoss();
-        }
+            if (!bossRound && waveNumber % bossFrequency == 0)
+            {
+                SpawnBoss();
+            }
+        } 
+    }
+
+    void SpawnWave()
+    {
+        Debug.Log("Spawning enemies");
+        bossRound = false;
+
+        waveNumber++;
+        Debug.Log("Wave number: " + waveNumber);
+
+        SpawnEnemies();
+        SpawnPowerups();
+    }
+
+    void SpawnBoss()
+    {
+        Debug.Log("Spawning a Boss");
+        bossRound = true;
+        
+        GameObject newBoss = PoolManager.instance.ReusePooledObject(bossPrefab, new Vector3(0, 10, 0), bossPrefab.transform.rotation);
+    // BossSript.power is currently unused
+        newBoss.GetComponent<BossScript>().power = waveNumber;
+        newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
+
+        activeEnemyNumber += 1;
+        Debug.Log("activeEnemyNumber: " + activeEnemyNumber);
+    }
+
+    void SpawnEnemies()
+    {
+        SpawnObjects(enemyPrefabs, waveNumber);
+        activeEnemyNumber = waveNumber;
+        Debug.Log("activeEnemyNumber: " + activeEnemyNumber);
+    }
+
+    void SpawnPowerups()
+    {
+        SpawnObjects(powerupPrefabs, powerupsPerRound);
     }
 
     void SpawnObjects(GameObject[] type, int numberOfEnemies)
@@ -56,14 +99,6 @@ public class SpawnManager : MonoBehaviour
             randomLocation = new Vector3(Random.Range(-spawnBoundary, spawnBoundary), 1, Random.Range(-spawnBoundary, spawnBoundary));
             
             PoolManager.instance.ReusePooledObject(type[randomIndex], randomLocation, Quaternion.identity);
-            //Instantiate(type[randomIndex], randomLocation, Quaternion.identity);
         }     
-    }
-
-    void SpawnBoss()
-    {
-        GameObject newBoss = Instantiate(boss, new Vector3(0, 10, 0), boss.transform.rotation);
-        newBoss.GetComponent<BossScript>().power = waveNumber;
-        newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
     }
 }
