@@ -5587,8 +5587,9 @@ MonoBehaviour:
   enemyPoolQuantity: 30
   bossPrefab: {fileID: 2043336313128936210, guid: 32fbf97e46a1861408898eb06e8370e3, type: 3}
   powerupPrefabs:
-  - {fileID: 2631811369662264724, guid: f57fda9ba70f9f94b825e379990795f9, type: 3}
-  - {fileID: 2631811369662264724, guid: 4ddff0eef05c4944889b00465edff818, type: 3}
+  - {fileID: 2631811369662264724, guid: 09241e71b7b082547b8efc9fd635355c, type: 3}
+  - {fileID: 2631811369662264724, guid: 09241e71b7b082547b8efc9fd635355c, type: 3}
+  - {fileID: 2631811369662264724, guid: 09241e71b7b082547b8efc9fd635355c, type: 3}
   powerupsPerRound: 1
   powerupPoolQuantity: 10
   gameManager: {fileID: 265754342}
@@ -8627,6 +8628,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138922230}
   m_CullTransparentMesh: 1
+--- !u!1001 &113322168856511600
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.182
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.107
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.847
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 376901364193243008, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3311581756658179759, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+      propertyPath: m_Name
+      value: Rocket
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
 --- !u!1001 &3543648676110277875
 PrefabInstance:
   m_ObjectHideFlags: 0
