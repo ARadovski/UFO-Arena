@@ -7,7 +7,11 @@ public class HomingMissile : MonoBehaviour
     GameObject[] enemies;
     GameObject target;
     public float rocketSpeed = 1;
-    public int rocketDamage = 10;
+    public int rocketDamage = 20;
+    public float blastRadius = 2;
+    public float blastForce = 10;
+    public float blastLift = 10;
+    public LayerMask blastedLayer;
     float minDistance = 0;
 
     bool seekingTarget;
@@ -31,13 +35,10 @@ public class HomingMissile : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Enemy")){
-            other.gameObject.GetComponent<EnemyScript>().UpdateHealth(-rocketDamage);
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            Explode();
         }
-        if (!other.gameObject.CompareTag("Player")){
-            ReturnToPool();
-        }
-        
     }
 
     void PursueTarget()
@@ -67,6 +68,18 @@ public class HomingMissile : MonoBehaviour
         }
         yield return new WaitForSeconds(.2f);
         seekingTarget = false;
+    }
+
+    void Explode()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, blastRadius, blastedLayer);
+        foreach (Collider col in colliders)
+        {
+            Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(blastForce, transform.position, blastRadius, blastLift, ForceMode.VelocityChange);
+            col.gameObject.GetComponent<EnemyScript>().UpdateHealth(-rocketDamage);
+        } 
+        ReturnToPool();
     }
 
 // Consistent naming/handling of disable&returnToPool ?

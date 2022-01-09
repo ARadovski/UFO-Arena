@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2043336313128936201}
   - component: {fileID: 2043336313128936203}
   - component: {fileID: -8049419908801366243}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UFO Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -136,6 +136,7 @@ MonoBehaviour:
   lateralSpeed: 0
   forceMultiplier: 2
   health: 100
+  currentHealth: 0
   crashDamage: 5
   firingRate: 2
   bulletSpeed: 10
