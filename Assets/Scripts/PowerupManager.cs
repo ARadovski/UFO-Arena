@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PowerupManager : MonoBehaviour
 {
+    public GameObject rocketPrefab;
+    public float rocketFireRate;
+    public int rocketPoolQuantity = 20;
+    public Transform rocketSpawn;
+   
     GameObject player;
     PlayerController playerController;
     static PowerupManager _instance;
@@ -20,6 +25,15 @@ public class PowerupManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
+
+        if (rocketFireRate <= 0){
+            rocketFireRate = 1;
+        }
+    }
+
+    private void Start()
+    {
+        PoolManager.instance.CreateNewPool(rocketPrefab, rocketPoolQuantity);
     }
 
     public void ActivatePowerup(GameObject powerup)
@@ -35,6 +49,10 @@ public class PowerupManager : MonoBehaviour
                 case PowerupType.bulletSpeed:
                     playerController.bulletSpeed += 1;
                     break;
+                case PowerupType.homingRocket:
+                    StartCoroutine(LaunchRockets());
+                    break;
+                
                 default:
                     break;
             }
@@ -50,5 +68,15 @@ public class PowerupManager : MonoBehaviour
         playerController.hasPowerup = true;
         yield return new WaitForSeconds(duration);
         playerController.hasPowerup = false;
+        StopAllCoroutines();
+    }
+
+    IEnumerator LaunchRockets()
+    {
+        while(true)
+        {
+            PoolManager.instance.ReusePooledObject(rocketPrefab, rocketSpawn.position, player.transform.rotation);
+            yield return new WaitForSeconds(1/rocketFireRate);
+        }     
     }
 }

@@ -1322,6 +1322,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3543648676382617988, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
   m_PrefabInstance: {fileID: 3543648676110277875}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &281521528 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3543648676382617992, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
+  m_PrefabInstance: {fileID: 3543648676110277875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &313103784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,7 +1670,7 @@ Transform:
   m_Children:
   - {fileID: 76117950}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &392148756
 MonoBehaviour:
@@ -5652,6 +5657,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06d92309e2a1134a85ceafe40dd9ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rocketPrefab: {fileID: 3311581756658179759, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
+  rocketFireRate: 2
+  rocketPoolQuantity: 20
+  rocketSpawn: {fileID: 1454730509}
 --- !u!1 &1346703819
 GameObject:
   m_ObjectHideFlags: 0
@@ -6159,6 +6168,36 @@ Transform:
   m_Father: {fileID: 1246729893}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
+--- !u!1 &1454730508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1454730509}
+  m_Layer: 0
+  m_Name: RocketSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1454730509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454730508}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.57, z: 1.091}
+  m_LocalScale: {x: 0.2, y: 0.6, z: 0.40000007}
+  m_Children: []
+  m_Father: {fileID: 281521528}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1459522954
 GameObject:
   m_ObjectHideFlags: 0
@@ -8645,7 +8684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3543648676382617992, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3543648676382617992, guid: 6cec450a92638e84dbf10e11fa522a46, type: 3}
       propertyPath: m_LocalPosition.x

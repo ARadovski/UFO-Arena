@@ -11,7 +11,7 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] powerupPrefabs;
     [SerializeField] int powerupsPerRound = 1;
     public int powerupPoolQuantity;
-
+    
     public static int activeEnemyNumber;
 
     [SerializeField] private GameManager gameManager;

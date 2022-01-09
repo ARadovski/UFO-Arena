@@ -109,6 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d9138b3515e1e4583b79b0bd99ced4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerupType: 1
-  timedPowerup: 0
-  powerupDuration: 5
+  powerupType: 7
+  timedPowerup: 1
+  powerupDuration: 6
