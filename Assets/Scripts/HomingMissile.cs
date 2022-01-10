@@ -6,6 +6,7 @@ public class HomingMissile : MonoBehaviour
 {
     GameObject[] enemies;
     GameObject target;
+    public ParticleSystem explosionParticles;
     public float rocketSpeed = 1;
     public int rocketDamage = 20;
     public float blastRadius = 2;
@@ -15,21 +16,31 @@ public class HomingMissile : MonoBehaviour
     float minDistance = 0;
 
     bool seekingTarget;
+    bool rocketActive;
+
+    void Awake()
+    {
+        //explosionParticles = gameObject.GetComponentInChildren<ParticleSystem>();
+    }
     void OnEnable()
     {
         StartCoroutine(FindTarget());
         Invoke("ReturnToPool", 30);
+        rocketActive = true;
     }
 
     void Update()
     {
-        if (target.activeInHierarchy)
+        if (rocketActive)
         {
-            PursueTarget();
-        }
-        else if (!seekingTarget)
-        {
-            StartCoroutine(FindTarget());
+            if (target.activeInHierarchy)
+            {
+                PursueTarget();
+            }
+            else if (!seekingTarget)
+            {
+                StartCoroutine(FindTarget());
+            }
         }
     }
 
@@ -37,6 +48,7 @@ public class HomingMissile : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Player"))
         {
+            rocketActive = false;
             Explode();
         }
     }
@@ -79,6 +91,8 @@ public class HomingMissile : MonoBehaviour
             rb.AddExplosionForce(blastForce, transform.position, blastRadius, blastLift, ForceMode.VelocityChange);
             col.gameObject.GetComponent<EnemyScript>().UpdateHealth(-rocketDamage);
         } 
+        explosionParticles.transform.SetParent(null);
+        explosionParticles.Play();
         ReturnToPool();
     }
 
