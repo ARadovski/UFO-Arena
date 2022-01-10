@@ -5477,6 +5477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9532bc3e1cbb0b44198125f60d7b3eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particlePrefabs:
+  - {fileID: 5480742241636430173, guid: 7bfb42f6a67ec6e4181cb9855be090fb, type: 3}
+  particlePoolCapacity: 20
 --- !u!4 &1113208404
 Transform:
   m_ObjectHideFlags: 0
