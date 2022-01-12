@@ -9,6 +9,7 @@ TagManager:
   - InvisibleBoundary
   - Projectile
   - GameManager
+  - Pool
   layers:
   - Default
   - TransparentFX

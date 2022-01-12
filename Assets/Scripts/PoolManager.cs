@@ -7,8 +7,8 @@ public class PoolManager : MonoBehaviour
 	public Dictionary<int, Queue<GameObject>> poolDictionary = new Dictionary<int, Queue<GameObject>>();
 
 // Is there a better way to organize references to pooled objects etc.?
-	public Dictionary<string, GameObject> particlePool = new Dictionary<string, GameObject>();
 	public GameObject[] particlePrefabs;
+	public Dictionary<string, GameObject> particlePool = new Dictionary<string, GameObject>();
 	public int particlePoolCapacity;
 
 	static PoolManager _instance;
@@ -25,11 +25,17 @@ public class PoolManager : MonoBehaviour
 
 	private void Awake()
 	{
-// Populate library with items from the particlePrefab list, replace parented particles in Rocket prefab with ReusePooledObject at explosion time
+		//Populating dictionary with items from the particlePrefab list, replace parented particles in Rocket prefab with ReusePooledObject at explosion time
+		foreach (GameObject prefab in particlePrefabs)
+		{
+			particlePool.Add(prefab.name, prefab);
+		}
+
 		foreach (KeyValuePair<string, GameObject> particle in particlePool)
 		{
 			CreateNewPool(particle.Value, particlePoolCapacity);
 		}
+
 	}
 	public void CreateNewPool(GameObject prefab, int poolCapacity)
 	{

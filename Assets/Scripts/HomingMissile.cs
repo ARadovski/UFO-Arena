@@ -6,7 +6,9 @@ public class HomingMissile : MonoBehaviour
 {
     GameObject[] enemies;
     GameObject target;
-    public ParticleSystem explosionParticles;
+
+    GameObject smokeParticles;
+    
     public float rocketSpeed = 1;
     public int rocketDamage = 20;
     public float blastRadius = 2;
@@ -18,15 +20,19 @@ public class HomingMissile : MonoBehaviour
     bool seekingTarget;
     bool rocketActive;
 
-    void Awake()
-    {
-        //explosionParticles = gameObject.GetComponentInChildren<ParticleSystem>();
-    }
     void OnEnable()
     {
         StartCoroutine(FindTarget());
-        Invoke("ReturnToPool", 30);
+        //Invoke("ReturnToPool", 30);
         rocketActive = true;
+// Is there a more streamlined way to reuse these particle systems?:
+        if (!GetComponentInChildren<ParticleSystem>())
+        {
+            smokeParticles = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_SmokeTrail"], transform.position, transform.rotation);
+            smokeParticles.transform.SetParent(transform);
+        }
+        var smokeTrail = smokeParticles.GetComponentInChildren<ParticleSystem>().main;
+        smokeTrail.loop = true;
     }
 
     void Update()
@@ -76,9 +82,8 @@ public class HomingMissile : MonoBehaviour
                     target = enemies[i];
                 }
             }
-            Debug.Log("Targeting: " + target);
         }
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
         seekingTarget = false;
     }
 
@@ -91,9 +96,18 @@ public class HomingMissile : MonoBehaviour
             rb.AddExplosionForce(blastForce, transform.position, blastRadius, blastLift, ForceMode.VelocityChange);
             col.gameObject.GetComponent<EnemyScript>().UpdateHealth(-rocketDamage);
         } 
-        explosionParticles.transform.SetParent(null);
-        explosionParticles.Play();
+        PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_ExplosionRocket"], transform.position, transform.rotation);
+
+        DisconnectSmokeTrail();
         ReturnToPool();
+    }
+
+    void DisconnectSmokeTrail()
+    {
+// Eliminate redundant repeating line already done in OnAwake
+        var smokeTrail = smokeParticles.GetComponentInChildren<ParticleSystem>().main;
+        smokeTrail.loop = false;
+        smokeParticles.transform.SetParent(null);
     }
 
 // Consistent naming/handling of disable&returnToPool ?
