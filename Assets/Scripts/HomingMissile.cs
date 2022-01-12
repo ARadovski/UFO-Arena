@@ -6,7 +6,7 @@ public class HomingMissile : MonoBehaviour
 {
     GameObject[] enemies;
     GameObject target;
-
+    [SerializeField] GameObject smokeSpawn;
     GameObject smokeParticles;
     
     public float rocketSpeed = 1;
@@ -25,14 +25,7 @@ public class HomingMissile : MonoBehaviour
         StartCoroutine(FindTarget());
         //Invoke("ReturnToPool", 30);
         rocketActive = true;
-// Is there a more streamlined way to reuse these particle systems?:
-        if (!GetComponentInChildren<ParticleSystem>())
-        {
-            smokeParticles = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_SmokeTrail"], transform.position, transform.rotation);
-            smokeParticles.transform.SetParent(transform);
-        }
-        var smokeTrail = smokeParticles.GetComponentInChildren<ParticleSystem>().main;
-        smokeTrail.loop = true;
+        ConnectSmokeTrail();
     }
 
     void Update()
@@ -100,6 +93,18 @@ public class HomingMissile : MonoBehaviour
 
         DisconnectSmokeTrail();
         ReturnToPool();
+    }
+
+    void ConnectSmokeTrail()
+    {
+// Is there a more streamlined way to reuse these particle systems?:
+        if (!GetComponentInChildren<ParticleSystem>())
+        {
+            smokeParticles = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_SmokeTrail"], smokeSpawn.transform.position, transform.rotation);
+            smokeParticles.transform.SetParent(transform);
+        }
+        var smokeTrail = smokeParticles.GetComponentInChildren<ParticleSystem>().main;
+        smokeTrail.loop = true;
     }
 
     void DisconnectSmokeTrail()
