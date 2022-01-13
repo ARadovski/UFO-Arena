@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 3658128299200434774}
   - component: {fileID: 3658128299200434770}
   - component: {fileID: 3216090688698731920}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UFO Large
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -233,6 +233,7 @@ MonoBehaviour:
   lateralSpeed: 3
   forceMultiplier: 2
   health: 50
+  currentHealth: 0
   crashDamage: 5
   firingRate: 2
   bulletSpeed: 10

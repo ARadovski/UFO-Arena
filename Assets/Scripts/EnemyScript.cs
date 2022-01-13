@@ -121,7 +121,7 @@ public class EnemyScript : MonoBehaviour
     {
         gameObject.SetActive(false);
         gameManager.UpdateScore(scoreValue);
-        SpawnManager.activeEnemyNumber -= 1;
+        SpawnManager.activeEnemyCount -= 1;
     }
 
 }

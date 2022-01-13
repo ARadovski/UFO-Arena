@@ -26,7 +26,7 @@ public class BossScript : MonoBehaviour
             yield return new WaitForSeconds(3);
 
             PoolManager.instance.ReusePooledObject(minionPrefab, transform.position, transform.rotation);
-            SpawnManager.activeEnemyNumber += 1;
+            SpawnManager.activeEnemyCount += 1;
         }
     }
 }

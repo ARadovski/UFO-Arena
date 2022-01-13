@@ -11,8 +11,8 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] powerupPrefabs;
     [SerializeField] int powerupsPerRound = 1;
     public int powerupPoolQuantity;
-
-    public static int activeEnemyNumber;
+    
+    public static int activeEnemyCount;
 
     [SerializeField] private GameManager gameManager;
 
@@ -25,6 +25,8 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.OnStartGame += ResetWaves;
+
         for (int i = 0; i < enemyPrefabs.Length; i++)
         {
             PoolManager.instance.CreateNewPool(enemyPrefabs[i], enemyPoolQuantity);
@@ -41,7 +43,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (gameManager.gameIsActive)
         {
-            if (activeEnemyNumber <= 0)
+            if (activeEnemyCount <= 0)
             {
                 SpawnWave();
             }
@@ -75,15 +77,15 @@ public class SpawnManager : MonoBehaviour
         newBoss.GetComponent<BossScript>().power = waveNumber;
         newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
 
-        activeEnemyNumber += 1;
-        Debug.Log("activeEnemyNumber: " + activeEnemyNumber);
+        activeEnemyCount++;
+        Debug.Log("activeEnemyNumber: " + activeEnemyCount);
     }
 
     void SpawnEnemies()
     {
         SpawnObjects(enemyPrefabs, waveNumber);
-        activeEnemyNumber = waveNumber;
-        Debug.Log("activeEnemyNumber: " + activeEnemyNumber);
+        activeEnemyCount += waveNumber;
+        Debug.Log("activeEnemyNumber: " + activeEnemyCount);
     }
 
     void SpawnPowerups()
@@ -100,5 +102,16 @@ public class SpawnManager : MonoBehaviour
             
             PoolManager.instance.ReusePooledObject(type[randomIndex], randomLocation, Quaternion.identity);
         }     
+    }
+
+    void ResetWaves()
+    {
+        waveNumber = 0;
+        activeEnemyCount = 0;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnStartGame -= ResetWaves;
     }
 }

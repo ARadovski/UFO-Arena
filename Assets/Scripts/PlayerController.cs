@@ -26,10 +26,8 @@ public class PlayerController : MonoBehaviour
     private float firingRate = .125f;
     private bool isFiring;
 
-    public float maxHealth = 10;
-    private float health;
-
-    public static event System.Action OnPlayerKilled;
+    public float maxHealth = 100;
+    [SerializeField] float health;
 
     private void Awake()
     {
@@ -37,8 +35,6 @@ public class PlayerController : MonoBehaviour
         health = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = health;
-
-        GameManager.OnGameOver += DisableControls;
 
         PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
 
@@ -59,7 +55,7 @@ public class PlayerController : MonoBehaviour
             MovePlayer();
             CheckWeaponFire();
         }
-
+        
         CheckIfKilled();
     }
 
@@ -123,11 +119,8 @@ public class PlayerController : MonoBehaviour
     {
         if (health <= 0)
         {
-            if(OnPlayerKilled !=null)
-            {
-                OnPlayerKilled();
-            }
-            controlsActive = false;
+            gameManager.GameOver();
+            DisableControls();
             Destroy(gameObject);
         }
     }
@@ -135,7 +128,7 @@ public class PlayerController : MonoBehaviour
     public void UpdateHealth(float changeAmount)
     {
         health += changeAmount;
-        healthSlider.value += changeAmount;
+        healthSlider.value = health;
         if (health >= maxHealth)
         {
             health = maxHealth;
