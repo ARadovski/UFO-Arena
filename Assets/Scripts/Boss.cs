@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Inherit from EnemySript?
-public class BossScript : MonoBehaviour
+public class Boss : MonoBehaviour
 {
     public int power;
     [SerializeField] private GameObject minionPrefab;

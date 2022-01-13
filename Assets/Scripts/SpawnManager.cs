@@ -74,7 +74,7 @@ public class SpawnManager : MonoBehaviour
         
         GameObject newBoss = PoolManager.instance.ReusePooledObject(bossPrefab, new Vector3(0, 10, 0), bossPrefab.transform.rotation);
     // BossSript.power is currently unused
-        newBoss.GetComponent<BossScript>().power = waveNumber;
+        newBoss.GetComponent<Boss>().power = waveNumber;
         newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
 
         activeEnemyCount++;

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2043336313128936200}
   - component: {fileID: 2043336313128936201}
   - component: {fileID: 2043336313128936203}
-  - component: {fileID: -8049419908801366243}
+  - component: {fileID: 1357761721365256771}
   m_Layer: 9
   m_Name: UFO Boss
   m_TagString: Enemy
@@ -141,7 +141,7 @@ MonoBehaviour:
   firingRate: 2
   bulletSpeed: 10
   isShooter: 0
---- !u!114 &-8049419908801366243
+--- !u!114 &1357761721365256771
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2043336313128936210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fab1577d661a2342a1baa099982439f, type: 3}
+  m_Script: {fileID: 11500000, guid: 73d816a4753e4974c86251758314e73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   power: 0
