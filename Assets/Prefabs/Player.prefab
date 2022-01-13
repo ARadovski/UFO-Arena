@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1454730508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1454730509}
+  m_Layer: 0
+  m_Name: RocketSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1454730509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454730508}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.57, z: 1.091}
+  m_LocalScale: {x: 0.2, y: 0.6, z: 0.40000007}
+  m_Children: []
+  m_Father: {fileID: 3543648676382617992}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3543648675626712970
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,7 +44,7 @@ GameObject:
   - component: {fileID: 3543648675626712968}
   m_Layer: 0
   m_Name: Tail
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3543648675717195148}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.4}
+  m_LocalPosition: {x: 0, y: 0, z: 1.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3543648676382617992}
@@ -162,6 +192,7 @@ Transform:
   - {fileID: 3543648675626712969}
   - {fileID: 3543648675717195123}
   - {fileID: 8587538210877277243}
+  - {fileID: 1454730509}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -255,14 +286,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e66913ed4379d2469a65180aba39218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 1000
+  playerSpeed: 120000
   healthSlider: {fileID: 8587538211068811474}
   layerMask:
     serializedVersion: 2
     m_Bits: 128
   bulletPrefab: {fileID: 6443011123596459462, guid: 25def3845912eb340b97fe7e3145c8dc, type: 3}
+  bulletPoolQuantity: 60
+  gameManager: {fileID: 0}
   bulletSpawn: {fileID: 3543648675717195148}
-  bulletSpeed: 20
+  hasPowerup: 0
+  bulletSpeed: 25
+  maxHealth: 200
   health: 200
 --- !u!1 &3543648677621824045
 GameObject:
@@ -278,7 +313,7 @@ GameObject:
   - component: {fileID: 3543648677621824019}
   m_Layer: 0
   m_Name: Gun
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -370,6 +405,10 @@ PrefabInstance:
     - target: {fileID: 5044173639470395641, guid: 796789f6904f651429a1a8392f08c900, type: 3}
       propertyPath: m_Name
       value: HealthSliderCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5044173639470395642, guid: 796789f6904f651429a1a8392f08c900, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5044173639470395643, guid: 796789f6904f651429a1a8392f08c900, type: 3}
       propertyPath: m_PresetInfoIsWorld

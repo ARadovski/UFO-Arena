@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2305345214952849462}
   - component: {fileID: 449289351672313888}
   - component: {fileID: 72386006407328342}
-  - component: {fileID: 6452379226673199103}
+  - component: {fileID: 6310615458772853793}
   - component: {fileID: 1579121843652515670}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Bullet_Backup
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,13 +92,13 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6443011123596459462}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 0.99
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &6452379226673199103
+--- !u!54 &6310615458772853793
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,7 +112,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1579121843652515670
 MonoBehaviour:

@@ -174,7 +174,7 @@ MonoBehaviour:
   smokeSpawn: {fileID: 1753615168465486397}
   rocketSpeed: 10
   rocketDamage: 10
-  blastRadius: 15
+  blastRadius: 2.5
   blastForce: 10
   blastLift: 1
   blastedLayer:

@@ -8,20 +8,20 @@ public class BulletScript : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke("Disable", 5);
+        Invoke("Disable", 6);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
 // Can I consolidate these 2 if player and enemy share an UpdateHealth method?
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<PlayerController>().UpdateHealth(-damageEffect);
+            other.gameObject.GetComponent<PlayerController>().UpdateHealth(-damageEffect);
         }
 
-        if (other.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyScript>().UpdateHealth(-damageEffect);
+            other.gameObject.GetComponent<EnemyScript>().UpdateHealth(-damageEffect);
         }
 
         Disable();
