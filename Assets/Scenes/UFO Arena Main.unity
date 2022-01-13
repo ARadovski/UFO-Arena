@@ -4903,7 +4903,7 @@ MonoBehaviour:
   particlePrefabs:
   - {fileID: 6464082365135995019, guid: 47593bf45cd9d9c4f9a0133421b0cfe9, type: 3}
   - {fileID: 926072772648135256, guid: 6f3511ec52b79f246940ebfdf67fcd7e, type: 3}
-  particlePoolCapacity: 50
+  particlePoolCapacity: 60
 --- !u!4 &1113208404
 Transform:
   m_ObjectHideFlags: 0
@@ -5663,7 +5663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rocketPrefab: {fileID: 3311581756658179759, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
   rocketFireRate: 2
-  rocketPoolQuantity: 20
+  rocketPoolQuantity: 36
   rocketSpawn: {fileID: 1454730509}
 --- !u!1 &1346703819
 GameObject:

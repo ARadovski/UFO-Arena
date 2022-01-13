@@ -9,6 +9,7 @@ public class PoolManager : MonoBehaviour
 // Is there a better way to organize references to pooled objects etc.?
 	public GameObject[] particlePrefabs;
 	public Dictionary<string, GameObject> particlePool = new Dictionary<string, GameObject>();
+// Optimize particle memory use and rendering
 	public int particlePoolCapacity;
 
 	static PoolManager _instance;
