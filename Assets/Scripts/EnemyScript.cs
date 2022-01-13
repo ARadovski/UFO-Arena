@@ -52,14 +52,6 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    protected virtual void Update()
-    {
-        if (currentHealth <= 0)
-        {
-            OnKilled();
-        }       
-    }
-
     protected virtual void FixedUpdate()
     {
         Move();
@@ -90,7 +82,11 @@ public class EnemyScript : MonoBehaviour
         enemyRb.AddForce((player.transform.position - transform.position).normalized * forwardSpeed * enemyRb.mass * forceMultiplier);
 
         // Moving laterally in relation to the player
-        enemyRb.AddForce(transform.right * lateralSpeed * enemyRb.mass * forceMultiplier);
+        if (lateralSpeed != 0)
+        {
+            enemyRb.AddForce(transform.right * lateralSpeed * enemyRb.mass * forceMultiplier);
+        }
+        
     }
 
     protected virtual void Rotate()
@@ -103,6 +99,10 @@ public class EnemyScript : MonoBehaviour
     {
         currentHealth += healthChange;
         healthSlider.value = currentHealth;
+        if (currentHealth <= 0)
+        {
+            OnKilled();
+        }     
     }
 
     protected IEnumerator FireWeapon()

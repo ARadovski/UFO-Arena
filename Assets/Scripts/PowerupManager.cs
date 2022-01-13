@@ -59,6 +59,7 @@ public class PowerupManager : MonoBehaviour
 
         if (powerupScript.timedPowerup)
         {
+// Fix bug where previous timer stops the next one - don't use StopAllCoroutines
             StartCoroutine(PowerupTimer(powerupScript.powerupDuration));
         }
     }

@@ -55,8 +55,6 @@ public class PlayerController : MonoBehaviour
             MovePlayer();
             CheckWeaponFire();
         }
-        
-        CheckIfKilled();
     }
 
     // Control player movement with forces to rigidbody
@@ -134,7 +132,8 @@ public class PlayerController : MonoBehaviour
         if (health >= maxHealth)
         {
             health = maxHealth;
-        }        
+        }    
+        CheckIfKilled();    
     }
 
     void EnableControls()
