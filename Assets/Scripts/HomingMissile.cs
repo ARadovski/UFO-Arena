@@ -28,6 +28,7 @@ public class HomingMissile : MonoBehaviour
         ConnectSmokeTrail();
     }
 
+// How can I get rid of Update here?
     void Update()
     {
         if (rocketActive)

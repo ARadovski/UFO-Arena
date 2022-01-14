@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+// Break up into separate specialized scripts?
 public class EnemyScript : MonoBehaviour
 {
     protected Rigidbody enemyRb;
@@ -35,7 +37,7 @@ public class EnemyScript : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         currentHealth = health;
         healthSlider.maxValue = health;

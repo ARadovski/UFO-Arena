@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
         GameManager.OnStartGame += EnableControls;
     }
 
+// Move some/all to FixedUpdate? Get rid of CheckWeaponFire via events?
     void Update()
     {
         if (controlsActive)
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+// Move this over to FixedUpdate?
     // Control player movement with forces to rigidbody
     void MovePlayer()
     {
