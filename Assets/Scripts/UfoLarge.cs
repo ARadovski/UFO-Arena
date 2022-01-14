@@ -8,9 +8,8 @@ public class UfoLarge : EnemyScript
     [SerializeField] float jumpForce;
 
 // POLYMORPHISM
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         StartCoroutine(Hop());
     }
 

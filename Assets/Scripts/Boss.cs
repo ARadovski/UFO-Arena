@@ -9,9 +9,12 @@ public class Boss : MonoBehaviour
     [SerializeField] private GameObject minionPrefab;
     [SerializeField] int minionPoolQuantity;
 
+    SpawnManager spawnManager;
+
     private void Awake()
     {
         PoolManager.instance.CreateNewPool(minionPrefab, minionPoolQuantity);
+        spawnManager = FindObjectOfType<SpawnManager>();
     }
 
     private void OnEnable()
@@ -26,7 +29,12 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(3);
 
             PoolManager.instance.ReusePooledObject(minionPrefab, transform.position, transform.rotation);
-            SpawnManager.activeEnemyCount += 1;
+            spawnManager.CountEnemies();
         }
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }

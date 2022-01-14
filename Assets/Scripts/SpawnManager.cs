@@ -26,6 +26,8 @@ public class SpawnManager : MonoBehaviour
     private void Awake()
     {
         GameManager.OnStartGame += ResetWaves;
+        GameManager.OnStartGame += SpawnWave;
+        GameManager.OnGameOver += ResetWaves;
 
         for (int i = 0; i < enemyPrefabs.Length; i++)
         {
@@ -38,21 +40,6 @@ public class SpawnManager : MonoBehaviour
         }
 
         PoolManager.instance.CreateNewPool(bossPrefab, 1);
-    }
-    void Update()
-    {
-        if (gameManager.gameIsActive)
-        {
-            if (activeEnemyCount <= 0)
-            {
-                SpawnWave();
-            }
-
-            if (!bossRound && waveNumber % bossFrequency == 0)
-            {
-                SpawnBoss();
-            }
-        } 
     }
 
     void SpawnWave()
@@ -77,15 +64,44 @@ public class SpawnManager : MonoBehaviour
         newBoss.GetComponent<Boss>().power = waveNumber;
         newBoss.GetComponent<EnemyScript>().health *= waveNumber / 2;
 
-        activeEnemyCount++;
-        Debug.Log("activeEnemyNumber: " + activeEnemyCount);
+        CountEnemies();
     }
 
     void SpawnEnemies()
     {
         SpawnObjects(enemyPrefabs, waveNumber);
-        activeEnemyCount += waveNumber;
+// Temp workaround to counter bug that throws off activeEnemyCount in some (unexplained) cases 
+        CountEnemies();
+// Could this work with a singleton?:
+        //activeEnemyCount += waveNumber;
+        
+    }
+
+// Workaround instead of unreliable manual count?
+    public void CountEnemies()
+    {
+        activeEnemyCount = FindObjectsOfType<EnemyScript>().Length;
         Debug.Log("activeEnemyNumber: " + activeEnemyCount);
+
+        CheckIfSpawn();
+// Could this work with a singleton?
+        //activeEnemyCount += changeAmount;
+    }
+
+    void CheckIfSpawn()
+    {
+        if (gameManager.gameIsActive)
+        {
+            if (activeEnemyCount <= 0)
+            {
+                SpawnWave();
+            }
+
+            if (!bossRound && waveNumber % bossFrequency == 0)
+            {
+                SpawnBoss();
+            }
+        } 
     }
 
     void SpawnPowerups()
@@ -113,5 +129,7 @@ public class SpawnManager : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.OnStartGame -= ResetWaves;
+        GameManager.OnStartGame -= SpawnWave;
+        GameManager.OnGameOver -= ResetWaves;
     }
 }

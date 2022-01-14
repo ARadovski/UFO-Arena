@@ -10,7 +10,6 @@ public class EnemyScript : MonoBehaviour
     protected PlayerController playerController;
     protected SpawnManager spawnManager;
     [SerializeField] protected GameObject bulletPrefab;
-    [SerializeField] int bulletPoolQuantity = 60;
     [SerializeField] protected GameObject bulletSpawn;
     protected GameManager gameManager;
     public Slider healthSlider;
@@ -28,13 +27,12 @@ public class EnemyScript : MonoBehaviour
     private void Awake()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        spawnManager = FindObjectOfType<SpawnManager>();
 
         enemyRb = GetComponent<Rigidbody>();
 
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
-
-        //PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
     }
 
     private void OnEnable()
@@ -43,9 +41,7 @@ public class EnemyScript : MonoBehaviour
         healthSlider.maxValue = health;
         healthSlider.value = health;
         scoreValue = (int)health;
-    }
-    protected virtual void Start()
-    {       
+
         if (isShooter)
         {
             StartCoroutine(FireWeapon());
@@ -121,7 +117,9 @@ public class EnemyScript : MonoBehaviour
     {
         gameObject.SetActive(false);
         gameManager.UpdateScore(scoreValue);
-        SpawnManager.activeEnemyCount -= 1;
+        spawnManager.CountEnemies();
+        // Stopping shooting
+        StopAllCoroutines();
     }
 
 }

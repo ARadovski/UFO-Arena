@@ -71,10 +71,6 @@ public class PoolManager : MonoBehaviour
 		pooledObject.transform.rotation = rotation;
 		pooledObject.SetActive(true);
 
-		if(prefab.gameObject.name != "Bullet"){
-			Debug.Log("Enabled 1 " + prefab);
-		}	
-
 // Investigate why EnemyScript gets disabled on smallEnemy, fix and eliminate this conditional:
 		if (pooledObject.GetComponent<EnemyScript>() != null){
 			pooledObject.GetComponent<EnemyScript>().enabled = true;

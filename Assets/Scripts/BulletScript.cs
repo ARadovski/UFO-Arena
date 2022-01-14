@@ -11,17 +11,17 @@ public class BulletScript : MonoBehaviour
         Invoke("Disable", 6);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-// Can I consolidate these 2 if player and enemy share an UpdateHealth method?
-        if (other.gameObject.CompareTag("Player"))
+        // Can I consolidate these 2 if player and enemy share an UpdateHealth method?
+        if (other.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerController>().UpdateHealth(-damageEffect);
+            other.GetComponent<PlayerController>().UpdateHealth(-damageEffect);
         }
 
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyScript>().UpdateHealth(-damageEffect);
+            other.GetComponent<EnemyScript>().UpdateHealth(-damageEffect);
         }
 
         Disable();
@@ -30,5 +30,6 @@ public class BulletScript : MonoBehaviour
     protected void Disable()
     {
         gameObject.SetActive(false);
+        CancelInvoke();
     }
 }
