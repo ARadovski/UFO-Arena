@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public float bulletSpeed = 1;
     private float firingRate = .125f;
     private bool isFiring;
+    public bool lazerOn;
 
     public float maxHealth = 100;
     [SerializeField] float health;
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         if (controlsActive)
         {
+// Redo with events instead of Update loop?
             LookAtMouse();
             MovePlayer();
             CheckWeaponFire();
@@ -110,10 +112,18 @@ public class PlayerController : MonoBehaviour
         {
             isFiring = true;
 
-            GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            bulletRb.velocity = bullet.transform.forward * bulletSpeed;
-            yield return new WaitForSeconds(firingRate);
+            if (lazerOn)
+            {
+                Debug.Log("Lazering!!");
+                yield return new WaitForSeconds(1);
+            }
+            else 
+            {
+                GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+                Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+                bulletRb.velocity = bullet.transform.forward * bulletSpeed;
+                yield return new WaitForSeconds(firingRate);
+            }
         }
     }
 
