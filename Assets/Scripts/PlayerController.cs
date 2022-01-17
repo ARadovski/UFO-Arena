@@ -9,10 +9,14 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     private Rigidbody playerRb;
     [SerializeField] private Slider healthSlider;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMaskGround;
+
+
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] float lazerMaxDistance = 20;
+    [SerializeField] LayerMask layerMaskLazer;
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
     Camera playCamera;
@@ -51,14 +55,21 @@ public class PlayerController : MonoBehaviour
     }
 
 // Move some/all to FixedUpdate? Get rid of CheckWeaponFire via events?
-    void Update()
+    private void Update()
+    {
+        if (controlsActive)
+        {
+            // This should stay in Update to prevent missed button clicks? Or do with events!
+            CheckWeaponFire();
+        }
+    }
+    void FixedUpdate()
     {
         if (controlsActive)
         {
 // Redo with events instead of Update loop?
             LookAtMouse();
             MovePlayer();
-            CheckWeaponFire();
         }
     }
 
@@ -75,7 +86,8 @@ public class PlayerController : MonoBehaviour
     void LookAtMouse()
     {
         Ray ray = playCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
+// Workaround with invisible LookAt ground object, better way?
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMaskGround))
         {
             transform.LookAt(new Vector3(raycastHit.point.x, transform.position.y, raycastHit.point.z));
         }
@@ -104,6 +116,10 @@ public class PlayerController : MonoBehaviour
                 if (startFiring != null){
                     StopCoroutine(startFiring);
                 }
+                if (lazerOn)
+                {
+                    lineRenderer.positionCount = 0;
+                }
                 isFiring = false;
             }
     }
@@ -116,11 +132,19 @@ public class PlayerController : MonoBehaviour
 
             if (lazerOn)
             {
-                Debug.Log("Lazering!!");
-                Physics.Raycast(bulletSpawn.transform.position, transform.forward, 20, layerMask);
+                lineRenderer.positionCount = 2;
+                if (Physics.Raycast(bulletSpawn.transform.position, transform.forward, out RaycastHit hit, lazerMaxDistance))
+                {
+                    Debug.Log(hit.collider.gameObject.name);
 
-                lineRenderer.SetPosition(0, bulletSpawn.transform.position);
-                lineRenderer.SetPosition(1, transform.position + transform.forward * 10);
+                    lineRenderer.SetPosition(0, bulletSpawn.transform.position);
+                    lineRenderer.SetPosition(1, hit.point);
+                }
+                else {
+                    lineRenderer.SetPosition(0, bulletSpawn.transform.position);
+                    lineRenderer.SetPosition(1, bulletSpawn.transform.position + transform.forward * lazerMaxDistance);
+                    Debug.Log("No hit");
+                }
                 
                 yield return null;
             }
