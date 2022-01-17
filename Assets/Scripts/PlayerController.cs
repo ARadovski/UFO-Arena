@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] int bulletPoolQuantity = 10;
+    [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
     Camera playCamera;
@@ -33,13 +34,14 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
+        lineRenderer = GetComponent<LineRenderer>();
+        playCamera = Camera.main;
+
         health = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = health;
 
         PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
-
-        playCamera = Camera.main;
     }
     void Start()
     {
@@ -115,7 +117,12 @@ public class PlayerController : MonoBehaviour
             if (lazerOn)
             {
                 Debug.Log("Lazering!!");
-                yield return new WaitForSeconds(1);
+                Physics.Raycast(bulletSpawn.transform.position, transform.forward, 20, layerMask);
+
+                lineRenderer.SetPosition(0, bulletSpawn.transform.position);
+                lineRenderer.SetPosition(1, transform.position + transform.forward * 10);
+                
+                yield return null;
             }
             else 
             {
