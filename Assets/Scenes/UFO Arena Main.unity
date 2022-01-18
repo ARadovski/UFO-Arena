@@ -574,6 +574,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!4 &177342822 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1905599629799112782, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+  m_PrefabInstance: {fileID: 1872031983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &234060656
 GameObject:
   m_ObjectHideFlags: 0
@@ -4957,6 +4962,8 @@ MonoBehaviour:
   particlePrefabs:
   - {fileID: 6464082365135995019, guid: 47593bf45cd9d9c4f9a0133421b0cfe9, type: 3}
   - {fileID: 926072772648135256, guid: 6f3511ec52b79f246940ebfdf67fcd7e, type: 3}
+  - {fileID: 6668304807944145606, guid: 44ceca58cd3c8bb44a226b3e8bcfcfe4, type: 3}
+  - {fileID: 4511555704166259820, guid: 2cb94c50c68651c4984a64f549b04763, type: 3}
   particlePoolCapacity: 60
 --- !u!4 &1113208404
 Transform:
@@ -5714,7 +5721,7 @@ MonoBehaviour:
   rocketPrefab: {fileID: 3311581756658179759, guid: 813afe59f5cd58745b21ecacabdf6d7e, type: 3}
   rocketFireRate: 2
   rocketPoolQuantity: 36
-  rocketSpawn: {fileID: 0}
+  rocketSpawn: {fileID: 177342822}
 --- !u!1 &1346703819
 GameObject:
   m_ObjectHideFlags: 0
@@ -7618,6 +7625,10 @@ PrefabInstance:
     - target: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: m_Name
       value: PlayerExp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8651779700831370365, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: lazerParticleTimer
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}

@@ -10,29 +10,25 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private LayerMask layerMaskGround;
-
-
     [SerializeField] private GameObject bulletPrefab;
+    GameObject lazerFlash;
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] float lazerMaxDistance = 20;
     [SerializeField] float lazerPower = 1;
+    [SerializeField] float lazerParticleTimer = .2f;
+    [SerializeField] float particleCountdown = 0;
     [SerializeField] LayerMask layerMaskLazer;
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
     Camera playCamera;
-
     IEnumerator startFiring;
-
     public bool hasPowerup;
     private bool controlsActive;
-
-    
     public float bulletSpeed = 1;
-    private float firingRate = .125f;
+    private float bulletFireRate = .125f;
     private bool isFiring;
     public bool lazerOn;
-
     public float maxHealth = 100;
     [SerializeField] float health;
 
@@ -108,7 +104,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isFiring && (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)))
             {
-                startFiring = ShootWeapon();
+                startFiring = FireWeapon();
                 StartCoroutine(startFiring);
             }
 
@@ -120,47 +116,69 @@ public class PlayerController : MonoBehaviour
                 if (lazerOn)
                 {
                     lineRenderer.positionCount = 0;
+                    lazerFlash.SetActive(false);
                 }
                 isFiring = false;
             }
     }
 
-    IEnumerator ShootWeapon()
+    IEnumerator FireWeapon()
     {        
+        if (lazerOn)
+        {
+            lazerFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
+            lazerFlash.transform.SetParent(bulletSpawn.transform);
+        }
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
             isFiring = true;
-
             if (lazerOn)
             {
-                lineRenderer.positionCount = 2;
-                if (Physics.Raycast(bulletSpawn.transform.position, transform.forward, out RaycastHit hit, lazerMaxDistance))
-                {
-                    Debug.Log(hit.collider.gameObject.name);
-
-                    lineRenderer.SetPosition(0, bulletSpawn.transform.position);
-                    lineRenderer.SetPosition(1, hit.point);
-                    if (hit.transform.gameObject.TryGetComponent(out EnemyScript enemyScript))
-                    {
-                        enemyScript.UpdateHealth(-lazerPower);
-                    }
-                }
-                else {
-                    lineRenderer.SetPosition(0, bulletSpawn.transform.position);
-                    lineRenderer.SetPosition(1, bulletSpawn.transform.position + transform.forward * lazerMaxDistance);
-                    Debug.Log("No hit");
-                }
-                
+                ShootLazer();
                 yield return null;
             }
             else 
             {
-                GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-                Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-                bulletRb.velocity = bullet.transform.forward * bulletSpeed;
-                yield return new WaitForSeconds(firingRate);
+                ShootBullet();
+                yield return new WaitForSeconds(bulletFireRate);
             }
         }
+    }
+
+    void ShootLazer()
+    {
+        lineRenderer.positionCount = 2;
+
+        if (Physics.Raycast(bulletSpawn.transform.position, transform.forward, out RaycastHit hit, lazerMaxDistance))
+        {
+            lineRenderer.SetPosition(0, bulletSpawn.transform.position);
+            lineRenderer.SetPosition(1, hit.point);
+
+            particleCountdown -= Time.deltaTime;
+            if (particleCountdown <= 0)
+            {
+                PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerHit"], hit.point, Quaternion.Euler(-transform.forward));
+                particleCountdown = lazerParticleTimer;
+            }
+
+            if (hit.transform.gameObject.TryGetComponent(out EnemyScript enemyScript))
+            {
+                enemyScript.UpdateHealth(-lazerPower);
+            }
+        }
+        else 
+        {
+            lineRenderer.SetPosition(0, bulletSpawn.transform.position);
+            lineRenderer.SetPosition(1, bulletSpawn.transform.position + transform.forward * lazerMaxDistance);
+            Debug.Log("No hit");
+        }
+    }
+
+    void ShootBullet()
+    {
+        GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bulletRb.velocity = bullet.transform.forward * bulletSpeed;
     }
 
     void CheckIfKilled()
