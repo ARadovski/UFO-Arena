@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] float lazerMaxDistance = 20;
+    [SerializeField] float lazerPower = 1;
     [SerializeField] LayerMask layerMaskLazer;
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
+        gameManager = FindObjectOfType<GameManager>();
         playCamera = Camera.main;
 
         health = maxHealth;
@@ -79,7 +81,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 playerInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
         playerRb.AddForce(playerInput * playerSpeed * Time.deltaTime);
-        //Debug.Log(playerRb.velocity.magnitude);
     }
 
     // Turn to look at mouse pointer raycast
@@ -139,6 +140,10 @@ public class PlayerController : MonoBehaviour
 
                     lineRenderer.SetPosition(0, bulletSpawn.transform.position);
                     lineRenderer.SetPosition(1, hit.point);
+                    if (hit.transform.gameObject.TryGetComponent(out EnemyScript enemyScript))
+                    {
+                        enemyScript.UpdateHealth(-lazerPower);
+                    }
                 }
                 else {
                     lineRenderer.SetPosition(0, bulletSpawn.transform.position);

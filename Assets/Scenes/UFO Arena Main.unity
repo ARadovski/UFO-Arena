@@ -128,20 +128,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
   m_PrefabInstance: {fileID: 1872031983}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &9140531
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9140526}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &24951435
 GameObject:
   m_ObjectHideFlags: 0
@@ -7561,6 +7547,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 94e71df0143487d46a097997ed6f23c8, type: 2}
+    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime1
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.17885464
+      objectReference: {fileID: 0}
+    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.8509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.12549017
+      objectReference: {fileID: 0}
+    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_Parameters.generateLightingData
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2043838877948414641, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -7605,38 +7615,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6263679909423193580, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Name
-      value: PlayerTail
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263679909423193580, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6412114421745165745, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Name
-      value: PlayerGun
-      objectReference: {fileID: 0}
-    - target: {fileID: 6412114421745165745, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: m_Name
       value: PlayerExp
       objectReference: {fileID: 0}
-    - target: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 7925824613554974244, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651779700831370365, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: gameManager
-      value: 
-      objectReference: {fileID: 265754342}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
 --- !u!1 &1878876849
