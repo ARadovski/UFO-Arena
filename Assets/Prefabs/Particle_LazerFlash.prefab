@@ -146,6 +146,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Instability (loop)
       objectReference: {fileID: 0}
+    - target: {fileID: 1487417115325296999, guid: 7686fbdff21d0cf45bbb5c4caad3f1c2, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 1487417115325296999, guid: 7686fbdff21d0cf45bbb5c4caad3f1c2, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7686fbdff21d0cf45bbb5c4caad3f1c2, type: 3}
 --- !u!4 &4898470582256095715 stripped

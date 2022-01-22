@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     GameObject lazerFlash;
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] Light LaserMuzzleLight;
     [SerializeField] float lazerMaxDistance = 20;
     [SerializeField] float lazerPower = 1;
     [SerializeField] float lazerParticleTimer = .2f;
@@ -35,9 +36,15 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
-        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
+        LaserMuzzleLight = GetComponentInChildren<Light>();
+        LaserMuzzleLight.gameObject.gameObject.SetActive(false);
         gameManager = FindObjectOfType<GameManager>();
         playCamera = Camera.main;
+
+        if (lineRenderer != null){
+            Debug.Log("Found line renderer: " + lineRenderer.gameObject.name);
+        }
 
         health = maxHealth;
         healthSlider.maxValue = maxHealth;
@@ -117,6 +124,7 @@ public class PlayerController : MonoBehaviour
                 {
                     lineRenderer.positionCount = 0;
                     lazerFlash.SetActive(false);
+                    LaserMuzzleLight.gameObject.SetActive(false);
                 }
                 isFiring = false;
             }
@@ -128,6 +136,7 @@ public class PlayerController : MonoBehaviour
         {
             lazerFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
             lazerFlash.transform.SetParent(bulletSpawn.transform);
+            LaserMuzzleLight.gameObject.SetActive(true);
         }
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {

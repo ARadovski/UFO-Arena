@@ -7554,30 +7554,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 94e71df0143487d46a097997ed6f23c8, type: 2}
-    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Parameters.colorGradient.ctime1
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.b
-      value: 0.17885464
-      objectReference: {fileID: 0}
-    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.g
-      value: 0.8509804
-      objectReference: {fileID: 0}
-    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.r
-      value: 0.12549017
-      objectReference: {fileID: 0}
-    - target: {fileID: 621858204, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: m_Parameters.generateLightingData
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2043838877948414641, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -7625,10 +7601,6 @@ PrefabInstance:
     - target: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: m_Name
       value: PlayerExp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651779700831370365, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
-      propertyPath: lazerParticleTimer
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
