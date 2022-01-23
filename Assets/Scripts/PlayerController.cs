@@ -9,36 +9,53 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     private Rigidbody playerRb;
     [SerializeField] private Slider healthSlider;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMaskGround;
     [SerializeField] private GameObject bulletPrefab;
+    GameObject lazerFlash;
     [SerializeField] int bulletPoolQuantity = 10;
+    [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] GameObject laserMuzzleLight;
+    [SerializeField] GameObject laserHitLight;
+    [SerializeField] float lazerMaxDistance = 20;
+    [SerializeField] float lazerPower = 1;
+    [SerializeField] float lazerParticleTimer = .2f;
+    [SerializeField] float particleCountdown = 0;
+    [SerializeField] LayerMask layerMaskLazer;
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
     Camera playCamera;
-
     IEnumerator startFiring;
-
     public bool hasPowerup;
     private bool controlsActive;
-
-    
     public float bulletSpeed = 1;
-    private float firingRate = .125f;
+    private float bulletFireRate = .125f;
     private bool isFiring;
-
+    public bool lazerOn;
     public float maxHealth = 100;
     [SerializeField] float health;
 
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
+
+        laserMuzzleLight = GetComponentInChildren<PulsateLight>().gameObject;
+        laserMuzzleLight.SetActive(false);
+        laserHitLight = GetComponentInChildren<LaserHitLight>().gameObject;
+        laserHitLight.SetActive(false);
+
+        gameManager = FindObjectOfType<GameManager>();
+        playCamera = Camera.main;
+
+        if (lineRenderer != null){
+            Debug.Log("Found line renderer: " + lineRenderer.gameObject.name);
+        }
+
         health = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = health;
 
         PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
-
-        playCamera = Camera.main;
     }
     void Start()
     {
@@ -48,13 +65,21 @@ public class PlayerController : MonoBehaviour
     }
 
 // Move some/all to FixedUpdate? Get rid of CheckWeaponFire via events?
-    void Update()
+    private void Update()
     {
         if (controlsActive)
         {
+            // This should stay in Update to prevent missed button clicks? Or do with events!
+            CheckWeaponFire();
+        }
+    }
+    void FixedUpdate()
+    {
+        if (controlsActive)
+        {
+// Redo with events instead of Update loop?
             LookAtMouse();
             MovePlayer();
-            CheckWeaponFire();
         }
     }
 
@@ -64,14 +89,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 playerInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
         playerRb.AddForce(playerInput * playerSpeed * Time.deltaTime);
-        //Debug.Log(playerRb.velocity.magnitude);
     }
 
     // Turn to look at mouse pointer raycast
     void LookAtMouse()
     {
         Ray ray = playCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
+// Workaround with invisible LookAt ground object, better way?
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMaskGround))
         {
             transform.LookAt(new Vector3(raycastHit.point.x, transform.position.y, raycastHit.point.z));
         }
@@ -91,7 +116,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isFiring && (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)))
             {
-                startFiring = ShootWeapon();
+                startFiring = FireWeapon();
                 StartCoroutine(startFiring);
             }
 
@@ -100,21 +125,79 @@ public class PlayerController : MonoBehaviour
                 if (startFiring != null){
                     StopCoroutine(startFiring);
                 }
+                if (lazerOn)
+                {
+                    lineRenderer.positionCount = 0;
+                    lazerFlash.SetActive(false);
+                    laserMuzzleLight.SetActive(false);
+                    laserHitLight.SetActive(false);
+                }
                 isFiring = false;
             }
     }
 
-    IEnumerator ShootWeapon()
+    IEnumerator FireWeapon()
     {        
+        if (lazerOn)
+        {
+            lazerFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
+            lazerFlash.transform.SetParent(bulletSpawn.transform);
+            laserMuzzleLight.SetActive(true);
+        }
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
             isFiring = true;
-
-            GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            bulletRb.velocity = bullet.transform.forward * bulletSpeed;
-            yield return new WaitForSeconds(firingRate);
+            if (lazerOn)
+            {
+                ShootLazer();
+                yield return null;
+            }
+            else 
+            {
+                ShootBullet();
+                yield return new WaitForSeconds(bulletFireRate);
+            }
         }
+    }
+
+    void ShootLazer()
+    {
+        lineRenderer.positionCount = 2;
+
+        if (Physics.Raycast(bulletSpawn.transform.position, transform.forward, out RaycastHit hit, lazerMaxDistance))
+        {
+            lineRenderer.SetPosition(0, bulletSpawn.transform.position);
+            lineRenderer.SetPosition(1, hit.point);
+
+            laserHitLight.SetActive(true);
+            laserHitLight.transform.position = hit.point;
+
+            particleCountdown -= Time.deltaTime;
+            if (particleCountdown <= 0)
+            {
+                PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerHit"], hit.point, Quaternion.Euler(-transform.forward));
+                particleCountdown = lazerParticleTimer;
+            }
+
+            if (hit.transform.gameObject.TryGetComponent(out EnemyScript enemyScript))
+            {
+                enemyScript.UpdateHealth(-lazerPower);
+            }
+        }
+        else 
+        {
+            lineRenderer.SetPosition(0, bulletSpawn.transform.position);
+            lineRenderer.SetPosition(1, bulletSpawn.transform.position + transform.forward * lazerMaxDistance);
+
+            laserHitLight.SetActive(false);
+        }
+    }
+
+    void ShootBullet()
+    {
+        GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bulletRb.velocity = bullet.transform.forward * bulletSpeed;
     }
 
     void CheckIfKilled()

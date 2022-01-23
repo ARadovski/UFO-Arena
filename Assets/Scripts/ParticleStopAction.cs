@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class ParticleStopAction : MonoBehaviour
 {
-    GameObject parent;
+    GameObject parentObject;
     [SerializeField] bool trail;
     GameObject poolManager;
     private void Awake()
     {
         poolManager = GameObject.FindObjectOfType<GameManager>().gameObject;
 
-        parent = transform.parent.gameObject;
+        parentObject = transform.parent.gameObject;
         var main = GetComponent<ParticleSystem>().main;
         main.stopAction = ParticleSystemStopAction.Callback;
     }
 
     void OnParticleSystemStopped()
     {
-        parent.SetActive(false);
+        parentObject.SetActive(false);
         if (trail)
         {
             transform.parent.SetParent(poolManager.transform);

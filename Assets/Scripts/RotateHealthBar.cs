@@ -12,8 +12,14 @@ public class RotateHealthBar : MonoBehaviour
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        transform.forward = mainCamera.transform.forward;
+        if (mainCamera != null){
+            transform.forward = mainCamera.transform.forward;
+        }
+        else {
+            Debug.Log("Main camera is null!");
+        }
+            
     }
 }

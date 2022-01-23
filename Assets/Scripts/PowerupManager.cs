@@ -47,12 +47,14 @@ public class PowerupManager : MonoBehaviour
                     playerController.UpdateHealth(playerController.maxHealth);
                     break;
                 case PowerupType.bulletSpeed:
-                    playerController.bulletSpeed += 1;
+                    playerController.bulletSpeed += 3;
                     break;
                 case PowerupType.homingRocket:
                     StartCoroutine(LaunchRockets());
                     break;
-                
+                case PowerupType.lazer:
+                    StartCoroutine(Lazer(powerupScript.powerupDuration));
+                    break;
                 default:
                     break;
             }
@@ -69,6 +71,7 @@ public class PowerupManager : MonoBehaviour
         playerController.hasPowerup = true;
         yield return new WaitForSeconds(duration);
         playerController.hasPowerup = false;
+// Stop individual named coroutines, otherwise multiple powerups get all cancelled
         StopAllCoroutines();
     }
 
@@ -79,5 +82,15 @@ public class PowerupManager : MonoBehaviour
             PoolManager.instance.ReusePooledObject(rocketPrefab, rocketSpawn.position, player.transform.rotation);
             yield return new WaitForSeconds(1/rocketFireRate);
         }     
+    }
+
+    public IEnumerator Lazer(float timer)
+    {
+// LAZER METHOD GOES HERE
+        playerController.lazerOn = true;
+        Debug.Log("Lazer ON");
+// Handle wait through PowerupTimer?
+        yield return new WaitForSeconds(timer);
+        playerController.lazerOn = false;
     }
 }
