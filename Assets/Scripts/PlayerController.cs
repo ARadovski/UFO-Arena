@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     GameObject lazerFlash;
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] Light LaserMuzzleLight;
+    [SerializeField] GameObject laserMuzzleLight;
+    [SerializeField] GameObject laserHitLight;
     [SerializeField] float lazerMaxDistance = 20;
     [SerializeField] float lazerPower = 1;
     [SerializeField] float lazerParticleTimer = .2f;
@@ -37,8 +38,12 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         lineRenderer = GetComponentInChildren<LineRenderer>();
-        LaserMuzzleLight = GetComponentInChildren<Light>();
-        LaserMuzzleLight.gameObject.gameObject.SetActive(false);
+
+        laserMuzzleLight = GetComponentInChildren<PulsateLight>().gameObject;
+        laserMuzzleLight.SetActive(false);
+        laserHitLight = GetComponentInChildren<LaserHitLight>().gameObject;
+        laserHitLight.SetActive(false);
+
         gameManager = FindObjectOfType<GameManager>();
         playCamera = Camera.main;
 
@@ -124,7 +129,8 @@ public class PlayerController : MonoBehaviour
                 {
                     lineRenderer.positionCount = 0;
                     lazerFlash.SetActive(false);
-                    LaserMuzzleLight.gameObject.SetActive(false);
+                    laserMuzzleLight.SetActive(false);
+                    laserHitLight.SetActive(false);
                 }
                 isFiring = false;
             }
@@ -136,7 +142,7 @@ public class PlayerController : MonoBehaviour
         {
             lazerFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
             lazerFlash.transform.SetParent(bulletSpawn.transform);
-            LaserMuzzleLight.gameObject.SetActive(true);
+            laserMuzzleLight.SetActive(true);
         }
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
@@ -163,6 +169,9 @@ public class PlayerController : MonoBehaviour
             lineRenderer.SetPosition(0, bulletSpawn.transform.position);
             lineRenderer.SetPosition(1, hit.point);
 
+            laserHitLight.SetActive(true);
+            laserHitLight.transform.position = hit.point;
+
             particleCountdown -= Time.deltaTime;
             if (particleCountdown <= 0)
             {
@@ -179,7 +188,8 @@ public class PlayerController : MonoBehaviour
         {
             lineRenderer.SetPosition(0, bulletSpawn.transform.position);
             lineRenderer.SetPosition(1, bulletSpawn.transform.position + transform.forward * lazerMaxDistance);
-            Debug.Log("No hit");
+
+            laserHitLight.SetActive(false);
         }
     }
 
