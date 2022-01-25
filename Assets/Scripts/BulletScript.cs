@@ -13,17 +13,18 @@ public class BulletScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.CompareTag("Projectile") || other.CompareTag("Powerup")){
+            return;
+        }
         // Can I consolidate these 2 if player and enemy share an UpdateHealth method?
-        if (other.CompareTag("Player"))
+        else if (other.CompareTag("Player"))
         {
             other.GetComponentInParent<PlayerController>().UpdateHealth(-damageEffect);
         }
-
-        if (other.CompareTag("Enemy"))
+        else if (other.CompareTag("Enemy"))
         {
             other.GetComponent<EnemyScript>().UpdateHealth(-damageEffect);
         }
-
         Disable();
     }
 

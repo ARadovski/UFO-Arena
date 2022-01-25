@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2631811369662264729}
   - component: {fileID: 2631811369662264730}
   - component: {fileID: 2631811369662264731}
-  - component: {fileID: -5209067395544717876}
+  - component: {fileID: -7772185513494178927}
   m_Layer: 0
-  m_Name: PowerUpLazer
+  m_Name: PowerUpBulletRate
   m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6f71eaf1e3129ae41a4a94e084c97f8f, type: 2}
+  - {fileID: 2100000, guid: b4caf3d44be61c540b576e5b7d867e0d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +97,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-5209067395544717876
+--- !u!114 &-7772185513494178927
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,6 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d9138b3515e1e4583b79b0bd99ced4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerupType: 7
+  powerupType: 4
   timedPowerup: 0
   powerupDuration: 8

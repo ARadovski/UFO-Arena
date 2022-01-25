@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PowerupManager : MonoBehaviour
 {
@@ -8,9 +9,15 @@ public class PowerupManager : MonoBehaviour
     public float rocketFireRate;
     public int rocketPoolQuantity = 20;
     public Transform rocketSpawn;
+
+    Coroutine launchRockets;
+    Coroutine shootLaser;
+    Coroutine changeBulletRate;
+    static event Action OnLaserExpired;
    
     GameObject player;
     PlayerController playerController;
+
     static PowerupManager _instance;
     public static PowerupManager instance 
     {
@@ -49,38 +56,55 @@ public class PowerupManager : MonoBehaviour
                 case PowerupType.bulletSpeed:
                     playerController.bulletSpeed += 3;
                     break;
+                case PowerupType.bulletRate:
+                    changeBulletRate = StartCoroutine(ChangeBulletRate(powerupScript.powerupDuration));
+                    break;
                 case PowerupType.homingRocket:
-                    StartCoroutine(LaunchRockets());
+                    launchRockets = StartCoroutine(LaunchRockets(powerupScript.powerupDuration));
                     break;
                 case PowerupType.lazer:
-                    StartCoroutine(Lazer(powerupScript.powerupDuration));
+                    if(shootLaser != null)
+                    {
+                        StopCoroutine(shootLaser);
+                    }
+                    shootLaser = StartCoroutine(Lazer(powerupScript.powerupDuration));
                     break;
                 default:
                     break;
             }
 
+// Not using this temporatily
         if (powerupScript.timedPowerup)
         {
-// Fix bug where previous timer stops the next one - don't use StopAllCoroutines
-            StartCoroutine(PowerupTimer(powerupScript.powerupDuration));
+            //StartCoroutine(PowerupTimer(powerupScript.powerupDuration));
         }
     }
 
+// Not using this temporatily
     IEnumerator PowerupTimer(float duration)
     {
         playerController.hasPowerup = true;
         yield return new WaitForSeconds(duration);
         playerController.hasPowerup = false;
 // Stop individual named coroutines, otherwise multiple powerups get all cancelled
-        StopAllCoroutines();
+        //StopAllCoroutines();
     }
 
-    IEnumerator LaunchRockets()
+    IEnumerator ChangeBulletRate(float duration)
     {
-        while(true)
+        playerController.bulletFireRate *= 2;
+        yield return new WaitForSeconds(duration);
+        playerController.bulletFireRate /= 2;
+    }
+
+    IEnumerator LaunchRockets(float duration)
+    {
+        float t = 0;
+        while(t <= duration)
         {
             PoolManager.instance.ReusePooledObject(rocketPrefab, rocketSpawn.position, player.transform.rotation);
             yield return new WaitForSeconds(1/rocketFireRate);
+            t += 1/rocketFireRate;
         }     
     }
 
@@ -91,6 +115,11 @@ public class PowerupManager : MonoBehaviour
         Debug.Log("Lazer ON");
 // Handle wait through PowerupTimer?
         yield return new WaitForSeconds(timer);
+// Handle with an Action instead?
+        // if (OnLaserExpired != null)
+        // {
+        //     OnLaserExpired();
+        // }
         playerController.lazerOn = false;
     }
 }

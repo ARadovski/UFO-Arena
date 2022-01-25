@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Slider healthSlider;
     [SerializeField] private LayerMask layerMaskGround;
     [SerializeField] private GameObject bulletPrefab;
-    GameObject lazerFlash;
+    GameObject laserFlash;
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] GameObject laserMuzzleLight;
@@ -24,11 +24,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     public GameObject bulletSpawn;
     Camera playCamera;
-    IEnumerator startFiring;
+    IEnumerator fireWeapon;
     public bool hasPowerup;
     private bool controlsActive;
     public float bulletSpeed = 1;
-    private float bulletFireRate = .125f;
+    public float bulletFireRate = 8;
     private bool isFiring;
     public bool lazerOn;
     public float maxHealth = 100;
@@ -56,6 +56,10 @@ public class PlayerController : MonoBehaviour
         healthSlider.value = health;
 
         PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
+
+        if (bulletFireRate <= 0){
+            bulletFireRate = 8;
+        }
     }
     void Start()
     {
@@ -116,21 +120,18 @@ public class PlayerController : MonoBehaviour
     {
         if (!isFiring && (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)))
             {
-                startFiring = FireWeapon();
-                StartCoroutine(startFiring);
+                fireWeapon = FireWeapon();
+                StartCoroutine(fireWeapon);
             }
 
             if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
             {
-                if (startFiring != null){
-                    StopCoroutine(startFiring);
+                if (fireWeapon != null){
+                    StopCoroutine(fireWeapon);
                 }
                 if (lazerOn)
                 {
-                    lineRenderer.positionCount = 0;
-                    lazerFlash.SetActive(false);
-                    laserMuzzleLight.SetActive(false);
-                    laserHitLight.SetActive(false);
+                    TurnLaserOff();
                 }
                 isFiring = false;
             }
@@ -140,8 +141,8 @@ public class PlayerController : MonoBehaviour
     {        
         if (lazerOn)
         {
-            lazerFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
-            lazerFlash.transform.SetParent(bulletSpawn.transform);
+            laserFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
+            laserFlash.transform.SetParent(bulletSpawn.transform);
             laserMuzzleLight.SetActive(true);
         }
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
@@ -154,8 +155,10 @@ public class PlayerController : MonoBehaviour
             }
             else 
             {
+// Handle this via event without conditional in Update?                
+                TurnLaserOff();
                 ShootBullet();
-                yield return new WaitForSeconds(bulletFireRate);
+                yield return new WaitForSeconds(1/bulletFireRate);
             }
         }
     }
@@ -191,6 +194,17 @@ public class PlayerController : MonoBehaviour
 
             laserHitLight.SetActive(false);
         }
+    }
+
+    public void TurnLaserOff()
+    {
+        lineRenderer.positionCount = 0;
+        if(laserFlash != null)
+        {
+            laserFlash.SetActive(false);
+        }
+        laserMuzzleLight.SetActive(false);
+        laserHitLight.SetActive(false);
     }
 
     void ShootBullet()

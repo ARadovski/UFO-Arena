@@ -46,11 +46,12 @@ public class HomingMissile : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Projectile"))
         {
-            rocketActive = false;
-            Explode();
+            return;
         }
+        rocketActive = false;
+        Explode();
     }
 
     void PursueTarget()
