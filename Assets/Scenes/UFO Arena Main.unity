@@ -5676,8 +5676,8 @@ MonoBehaviour:
   enemyPoolQuantity: 30
   bossPrefab: {fileID: 2043336313128936210, guid: 32fbf97e46a1861408898eb06e8370e3, type: 3}
   powerupPrefabs:
-  - {fileID: 2631811369662264724, guid: d77344dc9321cfa44891134852be0a66, type: 3}
-  - {fileID: 2631811369662264724, guid: d77344dc9321cfa44891134852be0a66, type: 3}
+  - {fileID: 2631811369662264724, guid: 09241e71b7b082547b8efc9fd635355c, type: 3}
+  - {fileID: 2631811369662264724, guid: 09241e71b7b082547b8efc9fd635355c, type: 3}
   - {fileID: 2631811369662264724, guid: d77344dc9321cfa44891134852be0a66, type: 3}
   - {fileID: 2631811369662264724, guid: d77344dc9321cfa44891134852be0a66, type: 3}
   powerupsPerRound: 1

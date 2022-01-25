@@ -110,5 +110,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupType: 8
-  timedPowerup: 1
+  timedPowerup: 0
   powerupDuration: 6
