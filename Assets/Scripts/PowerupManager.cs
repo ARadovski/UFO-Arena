@@ -12,6 +12,7 @@ public class PowerupManager : MonoBehaviour
 
     Coroutine launchRockets;
     Coroutine shootLaser;
+    Coroutine changeBulletRate;
     static event Action OnLaserExpired;
    
     GameObject player;
@@ -55,6 +56,9 @@ public class PowerupManager : MonoBehaviour
                 case PowerupType.bulletSpeed:
                     playerController.bulletSpeed += 3;
                     break;
+                case PowerupType.bulletRate:
+                    changeBulletRate = StartCoroutine(ChangeBulletRate(powerupScript.powerupDuration));
+                    break;
                 case PowerupType.homingRocket:
                     launchRockets = StartCoroutine(LaunchRockets(powerupScript.powerupDuration));
                     break;
@@ -86,6 +90,13 @@ public class PowerupManager : MonoBehaviour
         //StopAllCoroutines();
     }
 
+    IEnumerator ChangeBulletRate(float duration)
+    {
+        playerController.bulletFireRate *= 2;
+        yield return new WaitForSeconds(duration);
+        playerController.bulletFireRate /= 2;
+    }
+
     IEnumerator LaunchRockets(float duration)
     {
         float t = 0;
@@ -110,6 +121,5 @@ public class PowerupManager : MonoBehaviour
         //     OnLaserExpired();
         // }
         playerController.lazerOn = false;
-
     }
 }

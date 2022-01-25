@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public bool hasPowerup;
     private bool controlsActive;
     public float bulletSpeed = 1;
-    private float bulletFireRate = .125f;
+    public float bulletFireRate = 8;
     private bool isFiring;
     public bool lazerOn;
     public float maxHealth = 100;
@@ -56,6 +56,10 @@ public class PlayerController : MonoBehaviour
         healthSlider.value = health;
 
         PoolManager.instance.CreateNewPool(bulletPrefab, bulletPoolQuantity);
+
+        if (bulletFireRate <= 0){
+            bulletFireRate = 8;
+        }
     }
     void Start()
     {
@@ -154,7 +158,7 @@ public class PlayerController : MonoBehaviour
 // Handle this via event without conditional in Update?                
                 TurnLaserOff();
                 ShootBullet();
-                yield return new WaitForSeconds(bulletFireRate);
+                yield return new WaitForSeconds(1/bulletFireRate);
             }
         }
     }
