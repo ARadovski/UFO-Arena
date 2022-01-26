@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private bool controlsActive;
     public float bulletSpeed = 1;
     public float bulletFireRate = 8;
-    private bool isFiring;
+    public bool isFiring;
     public bool lazerOn;
     public float maxHealth = 100;
     [SerializeField] float health;
@@ -141,9 +141,7 @@ public class PlayerController : MonoBehaviour
     {        
         if (lazerOn)
         {
-            laserFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
-            laserFlash.transform.SetParent(bulletSpawn.transform);
-            laserMuzzleLight.SetActive(true);
+            TurnLaserOn();
         }
         while (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
@@ -194,6 +192,13 @@ public class PlayerController : MonoBehaviour
 
             laserHitLight.SetActive(false);
         }
+    }
+
+    public void TurnLaserOn()
+    {
+        laserFlash = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LazerFlash"], bulletSpawn.transform.position, Quaternion.Euler(transform.forward));
+        laserFlash.transform.SetParent(bulletSpawn.transform);
+        laserMuzzleLight.SetActive(true);
     }
 
     public void TurnLaserOff()

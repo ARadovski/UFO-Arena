@@ -112,6 +112,9 @@ public class PowerupManager : MonoBehaviour
     {
 // LAZER METHOD GOES HERE
         playerController.lazerOn = true;
+        if (playerController.isFiring){
+            playerController.TurnLaserOn();
+        }
         Debug.Log("Lazer ON");
 // Handle wait through PowerupTimer?
         yield return new WaitForSeconds(timer);
