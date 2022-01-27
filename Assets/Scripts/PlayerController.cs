@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] GameObject laserMuzzleLight;
     [SerializeField] GameObject laserHitLight;
+    [SerializeField] GameObject bulletMuzzle;
     [SerializeField] float lazerMaxDistance = 20;
     [SerializeField] float lazerPower = 1;
     [SerializeField] float lazerParticleTimer = .2f;
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour
         playerRb.centerOfMass = new Vector3(transform.position.x, 0, transform.position.z); 
 
         GameManager.OnStartGame += EnableControls;
+
     }
 
 // Move some/all to FixedUpdate? Get rid of CheckWeaponFire via events?
@@ -217,6 +219,10 @@ public class PlayerController : MonoBehaviour
         GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = bullet.transform.forward * bulletSpeed;
+
+// Adjust particle pool system to instantiate different quantities depending on what particle it is. In this case 60 is not necessary
+        bulletMuzzle = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_BulletMuzzle"], bulletSpawn.transform.position, transform.rotation);
+        bulletMuzzle.transform.SetParent(transform);
     }
 
     void CheckIfKilled()
