@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523280d9564d75b4089055084dba2780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathParticle: 3
   bulletPrefab: {fileID: 0}
-  bulletPoolQuantity: 60
   bulletSpawn: {fileID: 0}
   healthSlider: {fileID: 8089572980882867097}
   forwardSpeed: 5

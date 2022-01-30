@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float blastForce = 10;
     [SerializeField] float blastLift = 10;
     [SerializeField] float blastDamage = 0;
+    [SerializeField] float blastDelay = .8f;
     [SerializeField] LayerMask blastLayerMask;
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
@@ -244,8 +245,7 @@ public class PlayerController : MonoBehaviour
             playerDeathParticle.transform.SetParent(null);
             // Disable with delay for sync with death particles
             playerRb.isKinematic = true;
-            Invoke("ExplodePlayer", 0.8f);
-            Invoke("DisablePlayerObject", .8f);
+            StartCoroutine(ExplodePlayer());
             // Destroy(gameObject, .8f);
         }
     }
@@ -277,13 +277,20 @@ public class PlayerController : MonoBehaviour
     }
 
 // Copied from HomingMissile script. Eliminate repetition?
-    void ExplodePlayer()
+    IEnumerator ExplodePlayer()
     {
+        yield return new WaitForSeconds(blastDelay);
         Collider[] colliders = Physics.OverlapSphere(transform.position, blastRadius, blastLayerMask);
         foreach (Collider col in colliders)
         {
             Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
             rb.AddExplosionForce(blastForce, transform.position, blastRadius, blastLift, ForceMode.VelocityChange);
+        } 
+        DisablePlayerObject();
+// Find a way to continue running this coroutine after the player is disabled - right now the following code does not execute
+        yield return new WaitForSeconds(blastDelay);
+        foreach (Collider col in colliders)
+        {
             col.gameObject.GetComponent<EnemyScript>().UpdateHealth(-blastDamage);
         } 
     }

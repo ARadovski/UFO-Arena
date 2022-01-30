@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523280d9564d75b4089055084dba2780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathParticle: 1
   bulletPrefab: {fileID: 0}
   bulletSpawn: {fileID: 0}
   healthSlider: {fileID: 6758136685952349244}

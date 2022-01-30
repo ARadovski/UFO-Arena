@@ -988,6 +988,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   bulletPrefab: {fileID: 6443011123596459462, guid: 25def3845912eb340b97fe7e3145c8dc, type: 3}
+  blastRadius: 10
+  blastForce: 15
+  blastLift: 1
+  blastDamage: 0
+  blastLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   bulletPoolQuantity: 60
   lineRenderer: {fileID: 0}
   laserMuzzleLight: {fileID: 0}

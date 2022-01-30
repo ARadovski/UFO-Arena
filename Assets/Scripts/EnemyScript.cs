@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+public enum DeathParticleType { none, smallDeath, largeDeath, bossDeath}
 // Break up into separate specialized scripts?
 public class EnemyScript : MonoBehaviour
 {
+    public DeathParticleType deathParticle;
     protected Rigidbody enemyRb;
     protected GameObject player;
     protected PlayerController playerController;
@@ -117,6 +118,20 @@ public class EnemyScript : MonoBehaviour
 
     public void OnKilled()
     {
+// Replace switch statement with a conversion of enum type to particle name string?
+        switch (deathParticle){
+            case DeathParticleType.smallDeath:
+                PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_SmallDeath"], transform.position, transform.rotation);
+                break;
+            case DeathParticleType.largeDeath:
+                PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_LargeDeath"], transform.position, transform.rotation);
+                break;
+            case DeathParticleType.bossDeath:
+                PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_BossDeath"], transform.position, transform.rotation);
+                break;
+            default:
+                break;
+        }
         gameObject.SetActive(false);
         gameManager.UpdateScore(scoreValue);
         spawnManager.CountEnemies();
