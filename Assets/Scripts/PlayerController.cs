@@ -12,11 +12,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask layerMaskGround;
     [SerializeField] private GameObject bulletPrefab;
     GameObject laserFlash;
+    [SerializeField] float blastRadius = 10;
+    [SerializeField] float blastForce = 10;
+    [SerializeField] float blastLift = 10;
+    [SerializeField] float blastDamage = 0;
+    [SerializeField] LayerMask blastLayerMask;
     [SerializeField] int bulletPoolQuantity = 10;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] GameObject laserMuzzleLight;
     [SerializeField] GameObject laserHitLight;
     [SerializeField] GameObject bulletMuzzle;
+    [SerializeField] GameObject playerDeathParticle;
     [SerializeField] float lazerMaxDistance = 20;
     [SerializeField] float lazerPower = 1;
     [SerializeField] float lazerParticleTimer = .2f;
@@ -44,6 +50,9 @@ public class PlayerController : MonoBehaviour
         laserMuzzleLight.SetActive(false);
         laserHitLight = GetComponentInChildren<LaserHitLight>().gameObject;
         laserHitLight.SetActive(false);
+
+        playerDeathParticle = GetComponentInChildren<ParticlePlayerDeath>().gameObject;
+        playerDeathParticle.gameObject.SetActive(false);
 
         gameManager = FindObjectOfType<GameManager>();
         playCamera = Camera.main;
@@ -231,7 +240,13 @@ public class PlayerController : MonoBehaviour
         {
             gameManager.GameOver();
             DisableControls();
-            Destroy(gameObject);
+            playerDeathParticle.SetActive(true);
+            playerDeathParticle.transform.SetParent(null);
+            // Disable with delay for sync with death particles
+            playerRb.isKinematic = true;
+            Invoke("ExplodePlayer", 0.8f);
+            Invoke("DisablePlayerObject", .8f);
+            // Destroy(gameObject, .8f);
         }
     }
 
@@ -254,6 +269,23 @@ public class PlayerController : MonoBehaviour
     void DisableControls()
     {
         controlsActive = false;
+    }
+
+    void DisablePlayerObject()
+    {
+        gameObject.SetActive(false);
+    }
+
+// Copied from HomingMissile script. Eliminate repetition?
+    void ExplodePlayer()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, blastRadius, blastLayerMask);
+        foreach (Collider col in colliders)
+        {
+            Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(blastForce, transform.position, blastRadius, blastLift, ForceMode.VelocityChange);
+            col.gameObject.GetComponent<EnemyScript>().UpdateHealth(-blastDamage);
+        } 
     }
 
     private void OnDestroy()

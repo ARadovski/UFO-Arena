@@ -91,6 +91,7 @@ public class HomingMissile : MonoBehaviour
             rb.AddExplosionForce(blastForce, transform.position, blastRadius, blastLift, ForceMode.VelocityChange);
             col.gameObject.GetComponent<EnemyScript>().UpdateHealth(-rocketDamage);
         } 
+        
         PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_ExplosionRocket"], transform.position, transform.rotation);
 
         DisconnectSmokeTrail();
