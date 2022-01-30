@@ -4970,6 +4970,7 @@ MonoBehaviour:
   - {fileID: 6668304807944145606, guid: 44ceca58cd3c8bb44a226b3e8bcfcfe4, type: 3}
   - {fileID: 4511555704166259820, guid: 2cb94c50c68651c4984a64f549b04763, type: 3}
   - {fileID: 1843939508557951574, guid: 76a49f59da38a4e4980556e6ac424e97, type: 3}
+  - {fileID: 1715689398215439560, guid: be26f147c6062ce40b12ee7ea9c1e134, type: 3}
   particlePoolCapacity: 60
 --- !u!4 &1113208404
 Transform:

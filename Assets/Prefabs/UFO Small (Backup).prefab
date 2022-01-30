@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7336983984595049457}
   - component: {fileID: 7336983984595049458}
   m_Layer: 9
-  m_Name: UFO Small
+  m_Name: UFO Small (Backup)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,9 +96,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
-  m_Height: 9.58
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: -0.17, z: -0.00000008940697}
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!54 &7336983984595049457
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &7336983984595049458
 MonoBehaviour:
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
+  bulletPoolQuantity: 60
   bulletSpawn: {fileID: 0}
   healthSlider: {fileID: 6758136685952349244}
   forwardSpeed: 8
