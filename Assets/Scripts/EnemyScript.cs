@@ -10,6 +10,7 @@ public class EnemyScript : MonoBehaviour
     public DeathParticleType deathParticle;
     protected Rigidbody enemyRb;
     protected GameObject player;
+    GameObject bulletMuzzle;
     protected PlayerController playerController;
     protected SpawnManager spawnManager;
     [SerializeField] protected GameObject bulletPrefab;
@@ -112,6 +113,10 @@ public class EnemyScript : MonoBehaviour
 
             GameObject bullet = PoolManager.instance.ReusePooledObject(bulletPrefab, bulletSpawn.transform.position, transform.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * bulletSpeed;
+
+// Copied from PlayerManager - code repetition. Should PlayerManager instead inherit from EnemyScript?
+            bulletMuzzle = PoolManager.instance.ReusePooledObject(PoolManager.instance.particlePool["Particle_BulletMuzzle"], bulletSpawn.transform.position, transform.rotation);
+            bulletMuzzle.transform.SetParent(transform);
         }
         
     }
