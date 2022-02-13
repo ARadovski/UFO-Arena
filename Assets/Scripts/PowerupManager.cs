@@ -32,7 +32,7 @@ public class PowerupManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("MyPlayerTag");
         playerController = player.GetComponent<PlayerController>();
-        
+
         if (rocketFireRate <= 0){
             rocketFireRate = 1;
         }
@@ -62,6 +62,7 @@ public class PowerupManager : MonoBehaviour
                 case PowerupType.homingRocket:
                     launchRockets = StartCoroutine(LaunchRockets(powerupScript.powerupDuration));
                     break;
+// Bug: after having 2 lazer powerups concurrently lazer muzzle flash does not disappear 
                 case PowerupType.lazer:
                     if(shootLaser != null)
                     {
