@@ -30,8 +30,8 @@ public class PowerupManager : MonoBehaviour
     }
     void Awake()
     {
-        player = GameObject.FindWithTag("MyPlayerTag");
-        playerController = player.GetComponent<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
+        player = playerController.gameObject;
 
         if (rocketFireRate <= 0){
             rocketFireRate = 1;

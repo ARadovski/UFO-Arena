@@ -7604,13 +7604,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6263679909423193580, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412114421745165745, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: m_Name
       value: PlayerExp
       objectReference: {fileID: 0}
     - target: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: m_TagString
-      value: MyPlayerTag
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7925824613554974244, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8651779700831370365, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: blastForce

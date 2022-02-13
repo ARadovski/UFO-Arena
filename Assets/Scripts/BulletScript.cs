@@ -41,7 +41,7 @@ public class BulletScript : MonoBehaviour
             return;
         }
         // Can I consolidate these 2 if player and enemy share an UpdateHealth method?
-        else if (other.gameObject.CompareTag("MyPlayerTag"))
+        else if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponentInParent<PlayerController>().UpdateHealth(-damageEffect);
         }

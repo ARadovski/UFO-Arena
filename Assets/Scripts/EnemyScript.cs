@@ -35,8 +35,8 @@ public class EnemyScript : MonoBehaviour
 
         enemyRb = GetComponent<Rigidbody>();
 
-        player = GameObject.FindWithTag("MyPlayerTag");
-        playerController = player.GetComponent<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
+        player = playerController.gameObject;
     }
 
     protected virtual void OnEnable()
@@ -69,7 +69,7 @@ public class EnemyScript : MonoBehaviour
 
     protected virtual void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "MyPlayerTag")
+        if (col.gameObject.tag == "Player")
         {
             UpdateHealth(-crashDamage);
             playerController.UpdateHealth(-crashDamage);

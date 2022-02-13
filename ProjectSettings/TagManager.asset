@@ -11,7 +11,6 @@ TagManager:
   - Pool
   - ExtraTestTag
   - Powerup
-  - MyPlayerTag
   layers:
   - Default
   - TransparentFX
