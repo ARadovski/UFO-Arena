@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float particleCountdown = 0;
     [SerializeField] LayerMask layerMaskLazer;
     [SerializeField] private GameManager gameManager;
+    private PowerupManager powerupManager;
     public GameObject bulletSpawn;
     Camera playCamera;
     IEnumerator fireWeapon;
@@ -57,6 +58,8 @@ public class PlayerController : MonoBehaviour
 
         gameManager = FindObjectOfType<GameManager>();
         playCamera = Camera.main;
+
+        powerupManager = FindObjectOfType<PowerupManager>();
 
         if (lineRenderer != null){
             Debug.Log("Found line renderer: " + lineRenderer.gameObject.name);
@@ -123,7 +126,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.tag == "Powerup")
         {
-            PowerupManager.instance.ActivatePowerup(other.gameObject);  
+            powerupManager.ActivatePowerup(other.gameObject);  
             other.gameObject.SetActive(false);   
         }
     }

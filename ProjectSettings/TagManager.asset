@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Powerup
   - InvisibleBoundary
   - Projectile
   - GameManager
   - Pool
+  - ExtraTestTag
+  - Powerup
+  - MyPlayerTag
   layers:
   - Default
   - TransparentFX

@@ -7608,6 +7608,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerExp
       objectReference: {fileID: 0}
+    - target: {fileID: 6808638254491794059, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
+      propertyPath: m_TagString
+      value: MyPlayerTag
+      objectReference: {fileID: 0}
     - target: {fileID: 8651779700831370365, guid: 07895f452871ca94baa4bfbf86cca995, type: 3}
       propertyPath: blastForce
       value: 50
